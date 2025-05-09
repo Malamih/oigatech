@@ -5,6 +5,7 @@ import clsx from "clsx";
 import styles from "@/styles/imageInput.module.scss";
 import { XIcon } from "lucide-react";
 import { useReadImage } from "@/lib/imageReader";
+import { toast } from "sonner";
 
 const conditions = [
   "High Lighting",
@@ -15,7 +16,7 @@ const conditions = [
   "File size maximum: 5MB",
 ];
 
-export const ImageInput = () => {
+export const ImageInput = ({ isError = false }: { isError: boolean }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLLabelElement>(null);
@@ -45,6 +46,10 @@ export const ImageInput = () => {
 
     const files = e.dataTransfer.files;
     if (files && files.length > 0) {
+      if (!files[0].type.startsWith("image/")) {
+        toast.error("The selected file is not an image.");
+        return;
+      }
       setFile(files[0]);
       const src = await useReadImage(files[0]);
       if (!imageRef.current) return;
@@ -56,6 +61,10 @@ export const ImageInput = () => {
     e.preventDefault();
     const files = e.target.files;
     if (files && files.length > 0) {
+      if (!files[0].type.startsWith("image/")) {
+        toast.error("The selected file is not an image.");
+        return;
+      }
       setFile(files[0]);
       const src = await useReadImage(files[0]);
       if (!imageRef.current) return;
@@ -70,22 +79,27 @@ export const ImageInput = () => {
 
   return (
     <div className="mt-6 flex flex-col sm:flex-row gap-2">
+      <input
+        type="file"
+        name="image"
+        id="image"
+        className="hidden"
+        onChange={handleChange}
+      />
       <label
         className={clsx(
           "input w-[200px] m-auto sm:m-0 min-h-[130px] overflow-hidden rounded-sm cursor-pointer border-dotted border-2 border-gray-500 flex items-center flex-col gap-2",
           {
             [styles.dragActive]: isDragging,
+            [styles.error]: isError,
           }
         )}
         htmlFor="image"
-        ref={inputRef}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        onChange={handleChange}
       >
-        <input type="file" name="image" id="image" className="hidden" />
         {file ? (
           <div className="image relative w-full h-full bg-black">
             <img
@@ -110,6 +124,7 @@ export const ImageInput = () => {
             <Button
               className="rounded-xs bg-gray-800 px-4 py-0 mt-2 cursor-pointer hover:bg-gray-700"
               onClick={handleClick}
+              type="button"
             >
               Browse Files
             </Button>

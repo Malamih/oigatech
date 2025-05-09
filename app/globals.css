@@ -98,6 +98,17 @@ body {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-primary-50: #fff2ec;
+  --color-primary-100: #ffe2d4;
+  --color-primary-200: #ffc7ac;
+  --color-primary-300: #ffa682;
+  --color-primary-400: #ff844d;
+  --color-primary-500: #ee6115;
+  --color-primary-600: #c85111;
+  --color-primary-700: #a1410e;
+  --color-primary-800: #7a310a;
+  --color-primary-900: #542207;
 }
 
 :root {
@@ -109,6 +120,18 @@ body {
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
   --primary: #ee6115;
+
+  --color-primary-50: #fff2ec;
+  --color-primary-100: #ffe2d4;
+  --color-primary-200: #ffc7ac;
+  --color-primary-300: #ffa682;
+  --color-primary-400: #ff844d;
+  --color-primary-500: #ee6115;
+  --color-primary-600: #c85111;
+  --color-primary-700: #a1410e;
+  --color-primary-800: #7a310a;
+  --color-primary-900: #542207;
+
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
@@ -171,4 +194,12 @@ body {
 
 body {
   font-family: "ClashDisplay", sans-serif;
+  height: fit-content;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-template-rows: 60px auto;
+  grid-template-areas: "sidebar header" "sidebar content";
 }

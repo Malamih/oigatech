@@ -40,13 +40,16 @@ export const Intro = () => {
       timeline.to(container.current, {
         opacity: 0,
         pointerEvents: "none",
+        onComplete: () => {
+          document.body.style.overflow = "auto";
+        },
       });
     }
   }, []);
   return (
     <div
       className={clsx(
-        "intro flex items-center justify-center fixed top-0 left-0 w-full flex-col text-center text-white text-4xl font-medium h-full bg-[#EE6115] z-[20]"
+        "intro flex items-center justify-center fixed top-0 left-0 w-full flex-col text-center font-bold text-white text-4xl h-full bg-[#EE6115] z-[20]"
       )}
       ref={container}
     >

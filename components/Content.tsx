@@ -5,85 +5,357 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { toast } from "sonner";
+
+import Loader from "./Loader";
+import clsx from "clsx";
+import { useMutation } from "@tanstack/react-query";
+import ApiClient from "@/lib/apiClient";
+import { useState, useRef, useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { getAllCompanies, getCompanies } from "@/services/companies";
+import Cookies from "js-cookie";
+
+const endpoint = new ApiClient<any, { message: string }>("/users/register");
 
 export const Content = () => {
+  const [participation_type, setParticipation_type] = useState("");
+  const [company, setCompany] = useState<string>("");
   const router = useRouter();
-  const register = () => {
-    console.log("registering");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: (formData: FormData) => endpoint.post(formData),
+    retry: false,
+    onSuccess: (data) => {
+      toast.success(data.message);
+      Cookies.set("registeration_success", "true");
+      router.push("/success");
+    },
+    onError: (err: any) => {
+      toast.error(err.message);
+    },
+  });
+
+  const [nameValue, setNameValue] = useState("");
+  const [name, setName] = useState("");
+  const { data, isFetching, error: company_error } = getAllCompanies(name);
+  const [country_code, setCountryCode] = useState("");
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setName(nameValue);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [nameValue]);
+
+  if (company_error) {
+    toast.error(company_error.message);
+  }
+
+  const register = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formRef.current) {
+      const form = new FormData(formRef.current);
+      const phone = form.get("phone_number");
+      if (country_code != "") {
+        form.delete("phone_number");
+        form.append("phone_number", JSON.stringify(country_code + phone));
+      }
+      if (participation_type == "exhibitor" && company) {
+        if (company == "")
+          return toast.error("Please select a company to register.");
+        form.append("company_name", company);
+      }
+      mutate(form);
+    }
   };
+
+  const errorMessage = error ? (error as any).message : null;
   return (
     <>
-      <form action={register} className="flex flex-col">
+      <form
+        ref={formRef}
+        onSubmit={register}
+        onKeyDown={(e: React.KeyboardEvent<HTMLFormElement>) => {
+          const target = e.target as HTMLElement;
+          if (
+            e.key === "Enter" &&
+            target.tagName === "INPUT" &&
+            (target as HTMLInputElement).type === "file"
+          ) {
+            e.preventDefault();
+          }
+        }}
+        className="flex flex-col"
+      >
         <div className="group flex flex-col sm:flex-row gap-4 justify-between">
-          <Input placeholder="First name" name="first_name" />
-          <Input placeholder="Last name" name="last_name" />
+          <Input
+            placeholder="First name"
+            name="first_name"
+            className={clsx({
+              "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
+                error && (error as any).fieldErrors?.first_name,
+            })}
+          />
+          <Input
+            placeholder="Last name"
+            name="last_name"
+            className={clsx({
+              "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
+                error && (error as any).fieldErrors?.last_name,
+            })}
+          />
         </div>
         <div className="group flex flex-col sm:flex-row gap-4 justify-between mt-4">
           <div className="w-full mt-2">
-            <Input placeholder="Phone number" name="phoneNumber" />
-            <h1 className="font-normal text-gray-500 mb-2 mt-2">
+            <div className="group flex items-center gap-1">
+              <Input
+                placeholder="+000"
+                type="phone"
+                value={country_code}
+                onInput={(e: any) => setCountryCode(e.target.value)}
+                className={clsx("w-[50px]", {
+                  "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
+                    error && (error as any).fieldErrors?.phone_number,
+                })}
+                max={5}
+                required
+              />
+              <Input
+                placeholder="Phone number"
+                name="phone_number"
+                type="phone"
+                className={clsx({
+                  "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
+                    error && (error as any).fieldErrors?.phone_number,
+                })}
+              />
+            </div>
+            <h1
+              className={clsx("font-normal text-gray-500 mb-2 mt-2", {
+                "text-red-500": error?.fieldErrors?.send_via,
+              })}
+            >
               Send badge via
             </h1>
             <RadioGroup
-              name="sendVia"
+              name="send_via"
               className="grid mt-2"
               style={{ gridTemplateColumns: "repeat(2, minmax(auto, 1fr)" }}
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="whatsapp" id="whatsapp" />
-                <Label htmlFor="whatsapp">Whatsapp</Label>
+                <RadioGroupItem
+                  value="whatsapp"
+                  id="whatsapp"
+                  className={clsx({
+                    "border-red-500":
+                      error && (error as any).fieldErrors?.send_via,
+                  })}
+                />
+                <Label
+                  htmlFor="whatsapp"
+                  className={clsx({
+                    "text-red-500":
+                      error && (error as any).fieldErrors?.send_via,
+                  })}
+                >
+                  Whatsapp
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="email" id="email" />
-                <Label htmlFor="email">Email</Label>
+                <RadioGroupItem
+                  value="email"
+                  id="email"
+                  className={clsx({
+                    "border-red-500":
+                      error && (error as any).fieldErrors?.send_via,
+                  })}
+                />
+                <Label
+                  htmlFor="email"
+                  className={clsx({
+                    "text-red-500":
+                      error && (error as any).fieldErrors?.send_via,
+                  })}
+                >
+                  Email
+                </Label>
               </div>
             </RadioGroup>
           </div>
           <div className="participationType w-full mt-2">
-            <h1 className="font-normal text-gray-500 mb-2">
+            <h1
+              className={clsx("font-normal text-gray-500 mb-2", {
+                "text-red-500": error?.fieldErrors?.participation_type,
+              })}
+            >
               Participation type
             </h1>
             <RadioGroup
-              name="participationType"
+              name="participation_type"
+              value={participation_type}
               style={{ gridTemplateColumns: "repeat(2, minmax(auto, 1fr)" }}
+              onValueChange={setParticipation_type}
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="exhibitor" id="exhibitor" />
-                <Label htmlFor="exhibitor">Exhibitor</Label>
+                <RadioGroupItem
+                  value="exhibitor"
+                  id="exhibitor"
+                  className={clsx({
+                    "border-red-500": error?.fieldErrors?.participation_type,
+                  })}
+                />
+                <Label
+                  htmlFor="exhibitor"
+                  className={clsx({
+                    "text-red-500":
+                      error && (error as any).fieldErrors?.participation_type,
+                  })}
+                >
+                  Exhibitor
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="organizer" id="organizer" />
-                <Label htmlFor="organizer">Organizer</Label>
+                <RadioGroupItem
+                  value="organizer"
+                  id="organizer"
+                  className={clsx({
+                    "border-red-500":
+                      error && (error as any).fieldErrors?.participation_type,
+                  })}
+                />
+                <Label
+                  htmlFor="organizer"
+                  className={clsx({
+                    "text-red-500":
+                      error && (error as any).fieldErrors?.participation_type,
+                  })}
+                >
+                  Organizer
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="press" id="press" />
-                <Label htmlFor="press">Press</Label>
+                <RadioGroupItem
+                  value="press"
+                  id="press"
+                  className={clsx({
+                    "border-red-500":
+                      error && (error as any).fieldErrors?.participation_type,
+                  })}
+                />
+                <Label
+                  htmlFor="press"
+                  className={clsx({
+                    "text-red-500":
+                      error && (error as any).fieldErrors?.participation_type,
+                  })}
+                >
+                  Press
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="visitor" id="visitor" />
-                <Label htmlFor="visitor">Visitor</Label>
+                <RadioGroupItem
+                  value="visitor"
+                  id="visitor"
+                  className={clsx({
+                    "border-red-500":
+                      error && (error as any).fieldErrors?.participation_type,
+                  })}
+                />
+                <Label
+                  htmlFor="visitor"
+                  className={clsx({
+                    "text-red-500":
+                      error && (error as any).fieldErrors?.participation_type,
+                  })}
+                >
+                  Visitor
+                </Label>
               </div>
             </RadioGroup>
           </div>
         </div>
         <div className="group flex flex-col sm:flex-row gap-4 justify-between mt-4">
-          <Input placeholder="Company name" name="company_name" />
-          <Input placeholder="Your position" name="position" />
+          {participation_type != "exhibitor" ? (
+            <Input
+              placeholder="Company name"
+              name="company_name"
+              className={clsx({
+                "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
+                  error && (error as any).fieldErrors?.company_name,
+              })}
+            />
+          ) : (
+            <Select onValueChange={setCompany}>
+              <SelectTrigger className="w-full border-0 border-b rounded-none">
+                <SelectValue placeholder="Select company" />
+              </SelectTrigger>
+              <SelectContent className="rounded-none border-gray-200">
+                <Input
+                  placeholder="Search by name..."
+                  type="text"
+                  value={nameValue}
+                  onInput={(e: any) => setNameValue(e.target.value)}
+                />
+                {!isFetching &&
+                  data?.payload?.map((company, i: number) => {
+                    return (
+                      <SelectItem key={i} value={company.name}>
+                        {company.name}
+                      </SelectItem>
+                    );
+                  })}
+                {isFetching && (
+                  <span className="text-lg text-center flex justify-center">
+                    Loading...
+                  </span>
+                )}
+                {(data?.payload?.length ?? 0) < 1 && (
+                  <span className="py-2 text-center flex justify-center">
+                    No companies
+                  </span>
+                )}
+              </SelectContent>
+            </Select>
+          )}
+          <Input
+            placeholder="Your position"
+            name="position"
+            className={clsx({
+              "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
+                error && (error as any).fieldErrors?.position,
+            })}
+          />
         </div>
         <Input
           placeholder="Your email"
           name="email"
-          className="w-full sm:w-2/4 mt-4"
+          className={clsx("w-full sm:w-2/4 mt-4", {
+            "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
+              error && (error as any).fieldErrors?.email,
+          })}
         />
-        <ImageInput />
+        <ImageInput isError={error && (error as any).fieldErrors?.image} />
         <div className="options mt-4 flex gap-4">
-          <Button className="py-2 px-6 rounded-full text-lg cursor-pointer">
-            Register Badge
+          <Button
+            className="py-2 px-6 rounded-full text-lg cursor-pointer"
+            type="submit"
+            disabled={isPending}
+          >
+            {isPending ? <Loader text="Registering" /> : "Register Badge"}
           </Button>
           <Button
             className="py-2 px-6 rounded-full text-lg underline cursor-pointer"
             variant={"ghost"}
             onClick={() => router.refresh()}
+            type="button"
           >
             Clear All
           </Button>

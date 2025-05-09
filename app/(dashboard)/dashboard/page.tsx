@@ -1,8 +1,10 @@
+import { Content } from "./components/Content";
+
 const DashboardPage = () => {
   return (
-    <>
-      <h1>Dashboard</h1>
-    </>
+    <div>
+      <Content />
+    </div>
   );
 };
 
