@@ -1,21 +1,21 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
-import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { LoginRes, useLogin } from "@/services/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { EyeClosedIcon, EyeIcon } from "lucide-react";
 
 export const Content = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const success = (data: LoginRes) => {
-    toast.success(data.message);
     Cookies.set("token", data.token);
     router.push("/dashboard");
+    toast.success(data.message);
   };
   const { isPending, error, mutate }: any = useLogin(success);
 
@@ -29,14 +29,8 @@ export const Content = () => {
   return (
     <>
       <div className="wrapper py-4 px-6 bg-white rounded-sm w-[98%] max-w-[400px]">
-        <div className="logo mb-4 flex justify-center flex-col items-center">
-          <Image
-            src={"/dashboard/malamihLogo.png"}
-            alt="logo"
-            width={130}
-            height={40}
-          />
-          <span className="text-sm">Dashboard</span>
+        <div className="logo mb-4 flex justify-center flex-col items-center text-2xl font-medium">
+          <h1>Welcome admin</h1>
         </div>
         <form
           onSubmit={(e: any) => {
@@ -77,27 +71,16 @@ export const Content = () => {
                 id="password"
                 required
               />
-              <label
-                htmlFor="password"
+              <div
                 className="icon w-[30px] h-[30px] rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer absolute top-2/4 -translate-y-2/4 right-4"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <Image
-                    src={"/icons/eye-closed.svg"}
-                    width={19}
-                    height={19}
-                    alt="eye-icon"
-                  />
+                  <EyeClosedIcon width={19} />
                 ) : (
-                  <Image
-                    src={"/icons/eye.svg"}
-                    width={19}
-                    height={19}
-                    alt="eye-icon"
-                  />
+                  <EyeIcon width={19} />
                 )}
-              </label>
+              </div>
             </div>
             {error?.fieldErrors?.password?.map((err: string, i: number) => {
               return (
@@ -113,8 +96,9 @@ export const Content = () => {
               onSubmit={(e) => {
                 e.preventDefault();
               }}
+              disabled={isPending}
             >
-              {isPending ? "Signing in" : "Sign in"}
+              {isPending ? "Signing in..." : "Sign in"}
             </Button>
           </div>
         </form>

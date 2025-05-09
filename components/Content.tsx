@@ -27,6 +27,7 @@ const endpoint = new ApiClient<any, { message: string }>("/users/register");
 export const Content = () => {
   const [participation_type, setParticipation_type] = useState("");
   const [company, setCompany] = useState<string>("");
+  const [phoneValue, setPhoneValue] = useState("");
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -77,6 +78,9 @@ export const Content = () => {
     }
   };
 
+  const cleanNumbers = (str: string) =>
+    str.replace(/[^\d]/g, "").replace(/^0/, "");
+
   const errorMessage = error ? (error as any).message : null;
   return (
     <>
@@ -118,9 +122,11 @@ export const Content = () => {
             <div className="group flex items-center gap-1">
               <Input
                 placeholder="+000"
-                type="phone"
                 value={country_code}
-                onInput={(e: any) => setCountryCode(e.target.value)}
+                onInput={(e: any) =>
+                  setCountryCode(cleanNumbers(e.target.value))
+                }
+                maxLength={5}
                 className={clsx("w-[50px]", {
                   "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
                     error && (error as any).fieldErrors?.phone_number,
@@ -131,7 +137,10 @@ export const Content = () => {
               <Input
                 placeholder="Phone number"
                 name="phone_number"
-                type="phone"
+                value={phoneValue}
+                onInput={(e: any) =>
+                  setPhoneValue(cleanNumbers(e.target.value))
+                }
                 className={clsx({
                   "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
                     error && (error as any).fieldErrors?.phone_number,
