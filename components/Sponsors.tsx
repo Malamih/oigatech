@@ -85,7 +85,7 @@ export const Sponsors = () => {
             href="https://www.instagram.com/oigatech.iq?igsh=enM3YmJqZHVlandp"
             target="_blank"
           >
-            <Instagram width={25} />
+            <Instagram width={30} />
           </a>
           <a
             className="icon w-[30px] h-[30px] border-2 rounded-full border-white flex items-center justify-center"
