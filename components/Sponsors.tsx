@@ -31,7 +31,7 @@ export const Sponsors = () => {
   ];
   return (
     <div
-      className="sponsors overflow-hidden my-2 flex flex-wrap gap-4 px-4 py-3 self-center max-w-[700px] lg:max-w-[400px] w-full rounded-tr-2xl rounded-br-2xl rounded-tl-2xl rounded-bl-2xl lg:rounded-tl-[0] lg:rounded-bl-[0]"
+      className="sponsors overflow-hidden my-3 flex flex-wrap gap-4 px-4 py-3 self-center max-w-[700px] lg:max-w-[400px] w-full rounded-tr-2xl rounded-br-2xl rounded-tl-2xl rounded-bl-2xl lg:rounded-tl-[0] lg:rounded-bl-[0]"
       style={{ background: "linear-gradient(to bottom, #EA4C29, #F6AD20)" }}
     >
       {sponsorsGroup.map((group, i: number) => {
@@ -85,7 +85,7 @@ export const Sponsors = () => {
             href="https://www.instagram.com/oigatech.iq?igsh=enM3YmJqZHVlandp"
             target="_blank"
           >
-            <Instagram width={30} />
+            <Instagram width={35} className="scale-125" />
           </a>
           <a
             className="icon w-[30px] h-[30px] border-2 rounded-full border-white flex items-center justify-center"

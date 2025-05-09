@@ -18,6 +18,7 @@ export const middleware = async (request: NextRequest) => {
     const res = await new ApiClient<any, badgeConditionRes>(
       "/admin/badgeCondition"
     ).get({});
+    console.log(res);
     if (path == "/" && res.condition == "expired") {
       return NextResponse.redirect(new URL("/expire", request.url));
     }

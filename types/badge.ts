@@ -18,3 +18,8 @@ type RegisterResponse = {
     __v: number;
   };
 };
+
+type BadgeConditionRes = {
+  message: string;
+  condition: string;
+};

@@ -141,12 +141,15 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
           height={100}
         />
         <div className="list">
-          <h1 className="font-medium text-gray-400">
+          <h1 className="font-medium text-gray-400 text-center md:text-left">
             Conditions for uploading an image:
           </h1>
           {conditions.map((condition, i: number) => {
             return (
-              <li className="text-gray-400 text-sm font-medium" key={i}>
+              <li
+                className="text-gray-400 text-sm font-medium text-center md:text-left"
+                key={i}
+              >
                 {condition}
               </li>
             );

@@ -8,7 +8,7 @@ export const Header = () => {
           <Image src={"/header-logo.png"} alt="logo" width={177} height={100} />
         </div>
         <div className="title">
-          <h1 className="font-medium text-xl underline">
+          <h1 className="font-medium text-2xl underline">
             Iraq Oil and Gas Technology Exhibition “OIGATECH 2025”
           </h1>
           <p>
