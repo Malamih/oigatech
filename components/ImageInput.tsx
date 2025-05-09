@@ -135,7 +135,7 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
       <div className="conditions flex flex-col sm:flex-row gap-2">
         <Image
           src={"/imageEg.png"}
-          className="w-[120px] h-auto object-cover"
+          className="w-[120px] h-auto m-auto md:m-0 object-cover"
           alt="eg"
           width={120}
           height={100}
