@@ -1,5 +1,5 @@
 "use client";
-import { getCompanies } from "@/services/companies";
+import { getAllCompanies } from "@/services/companies";
 import {
   Select,
   SelectContent,
@@ -14,7 +14,7 @@ import { toast } from "sonner";
 export const Companies = () => {
   const [nameValue, setNameValue] = useState("");
   const [name, setName] = useState("");
-  const { data, isFetching, error } = getCompanies(name);
+  const { data, isFetching, error } = getAllCompanies(name);
 
   useEffect(() => {
     const timeout = setTimeout(() => {

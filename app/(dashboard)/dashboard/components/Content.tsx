@@ -69,27 +69,23 @@ export const Content = () => {
     toast.error(error.message);
   }
 
-  // Handle page change
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       setPage(newPage);
     }
   };
 
-  // Generate page numbers for pagination
   const generatePaginationItems = () => {
     const items = [];
-    const maxVisiblePages = 2; // Maximum number of page links to show
+    const maxVisiblePages = 2;
 
     let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
-    // Adjust start if end is at max
     if (endPage === totalPages) {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
-    // Show first page if not in range
     if (startPage > 1) {
       items.push(
         <PaginationItem key="first">
@@ -105,8 +101,6 @@ export const Content = () => {
           </PaginationLink>
         </PaginationItem>
       );
-
-      // Add ellipsis if needed
       if (startPage > 2) {
         items.push(
           <PaginationItem key="ellipsis-start">
@@ -115,8 +109,6 @@ export const Content = () => {
         );
       }
     }
-
-    // Add page numbers
     for (let i = startPage; i <= endPage; i++) {
       items.push(
         <PaginationItem key={i}>
@@ -133,10 +125,7 @@ export const Content = () => {
         </PaginationItem>
       );
     }
-
-    // Show last page if not in range
     if (endPage < totalPages) {
-      // Add ellipsis if needed
       if (endPage < totalPages - 1) {
         items.push(
           <PaginationItem key="ellipsis-end">
@@ -280,13 +269,13 @@ export const Content = () => {
               })}
             {!isFetching &&
               data?.payload &&
-              data.payload.map((user, i: number) => {
-                return <UserRow key={i} user={user} />;
-              })}
+              data.payload
+                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                .map((user, i: number) => {
+                  return <UserRow key={i} user={user} />;
+                })}
           </TableBody>
         </Table>
-
-        {/* Pagination Component */}
         {totalPages > 1 && (
           <div className="pagination-container flex justify-center mt-6">
             <Pagination>

@@ -84,7 +84,7 @@ export const UserRow = ({ user }: { user: User }) => {
     isPending: whatsapp_pending,
     error: whatsapp_error,
     mutate: send_whatsapp,
-  } = sendWhatsapp(success, user._id);
+  }: any = sendWhatsapp(success, user._id);
   if (
     error ||
     reject_error ||
@@ -99,7 +99,7 @@ export const UserRow = ({ user }: { user: User }) => {
         delete_error?.message ||
         download_error?.message ||
         email_error?.message ||
-        whatsapp_error?.message
+        whatsapp_error?.error?.message
     );
   }
 

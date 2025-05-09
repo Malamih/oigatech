@@ -4,6 +4,7 @@ import { Header } from "./dashboard/components/Header";
 import { Sidebar } from "./dashboard/components/Sidebar";
 import { QueryProvider } from "@/providers/QueryClientProvider";
 import { Toaster } from "sonner";
+import DashboardPageMetaTags from "@/components/DashboardMetaTags";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,6 +18,7 @@ export default function DashboardLayout({
 }>) {
   return (
     <html lang="en">
+      <DashboardPageMetaTags />
       <body className={`antialiased bg-[#f5eeeb]`}>
         <Toaster />
         <QueryProvider>

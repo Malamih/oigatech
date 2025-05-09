@@ -31,7 +31,7 @@ export type User = {
   image: ImageOrQRCode;
   qrcode: ImageOrQRCode;
   status: "pending" | "accepted" | "rejected";
-  createdAt: string;
+  createdAt: number;
   company?: Company;
 };
 

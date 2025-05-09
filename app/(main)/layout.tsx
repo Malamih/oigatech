@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Sponsors } from "@/components/Sponsors";
 import { Toaster } from "sonner";
 import { QueryProvider } from "@/providers/QueryClientProvider";
+import MetaTags from "@/components/MetaTags";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,6 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <MetaTags />
       <body
         className={`antialiased flex items-center p-2 lg:p-0 justify-center min-h-[100vh] overflow-x-hidden bg-[#973f0f]`}
       >
@@ -32,7 +34,7 @@ export default function RootLayout({
             />
           </div>
           <div className="page flex flex-col lg:flex-row z-10 p-3">
-            <div className="content flex flex-col relative p-3 bg-white min-h-[600px] rounded-tl-2xl rounded-bl-2xl max-w-[700px] w-auto">
+            <div className="content flex flex-col relative p-3 bg-white min-h-[500px] rounded-tl-2xl rounded-bl-2xl max-w-[700px] w-auto">
               <Image
                 src={"/content-background.png"}
                 fill

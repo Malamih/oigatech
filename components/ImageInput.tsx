@@ -19,7 +19,7 @@ const conditions = [
 export const ImageInput = ({ isError = false }: { isError: boolean }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const inputRef = useRef<HTMLLabelElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
 
   const handleDragEnter = useCallback((e: any) => {
@@ -85,6 +85,7 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
         id="image"
         className="hidden"
         onChange={handleChange}
+        ref={inputRef}
       />
       <label
         className={clsx(

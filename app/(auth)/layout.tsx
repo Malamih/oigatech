@@ -1,6 +1,7 @@
 import { QueryProvider } from "@/providers/QueryClientProvider";
 import "../globals.css";
 import { Toaster } from "sonner";
+import AuthPageMetaTags from "@/components/AuthMetaTags";
 type props = {
   children: React.ReactNode;
 };
@@ -8,6 +9,7 @@ type props = {
 const AuthLayout = ({ children }: props) => {
   return (
     <html>
+      <AuthPageMetaTags />
       <body>
         <Toaster />
         <QueryProvider>{children}</QueryProvider>

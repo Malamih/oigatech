@@ -30,6 +30,13 @@ export const Content = () => {
   const [phoneValue, setPhoneValue] = useState("");
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    position: "",
+    company_name: "",
+  });
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: (formData: FormData) => endpoint.post(formData),
@@ -43,6 +50,21 @@ export const Content = () => {
       toast.error(err.message);
     },
   });
+
+  const clearData = () => {
+    const resetData = {
+      first_name: "",
+      last_name: "",
+      email: "",
+      position: "",
+      company_name: "",
+    };
+    setCountryCode("");
+    setPhoneValue("");
+    setParticipation_type("");
+    setCompany("");
+    setFormData(resetData);
+  };
 
   const [nameValue, setNameValue] = useState("");
   const [name, setName] = useState("");
@@ -67,7 +89,7 @@ export const Content = () => {
       const phone = form.get("phone_number");
       if (country_code != "") {
         form.delete("phone_number");
-        form.append("phone_number", JSON.stringify(country_code + phone));
+        form.append("phone_number", country_code + phone);
       }
       if (participation_type == "exhibitor" && company) {
         if (company == "")
@@ -80,6 +102,7 @@ export const Content = () => {
 
   const cleanNumbers = (str: string) =>
     str.replace(/[^\d]/g, "").replace(/^0/, "");
+  const cleanCountry = (str: string) => str.replace(/[^\d]/g, "");
 
   const errorMessage = error ? (error as any).message : null;
   return (
@@ -103,6 +126,10 @@ export const Content = () => {
           <Input
             placeholder="First name"
             name="first_name"
+            value={formData.first_name}
+            onInput={(e: any) =>
+              setFormData((prev) => ({ ...prev, first_name: e.target.value }))
+            }
             className={clsx({
               "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
                 error && (error as any).fieldErrors?.first_name,
@@ -111,6 +138,10 @@ export const Content = () => {
           <Input
             placeholder="Last name"
             name="last_name"
+            value={formData.last_name}
+            onInput={(e: any) =>
+              setFormData((prev) => ({ ...prev, last_name: e.target.value }))
+            }
             className={clsx({
               "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
                 error && (error as any).fieldErrors?.last_name,
@@ -119,19 +150,20 @@ export const Content = () => {
         </div>
         <div className="group flex flex-col sm:flex-row gap-4 justify-between mt-4">
           <div className="w-full mt-2">
-            <div className="group flex items-center gap-1">
+            <div className="group relative flex items-center gap-1">
+              <div className="absolute top-[51%] left-[4px] -translate-y-2/4 pointer-events-none text-lg">
+                +
+              </div>
               <Input
-                placeholder="+000"
                 value={country_code}
                 onInput={(e: any) =>
-                  setCountryCode(cleanNumbers(e.target.value))
+                  setCountryCode(cleanCountry(e.target.value))
                 }
-                maxLength={5}
-                className={clsx("w-[50px]", {
+                maxLength={4}
+                className={clsx("w-[60px] pl-4", {
                   "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
                     error && (error as any).fieldErrors?.phone_number,
                 })}
-                max={5}
                 required
               />
               <Input
@@ -296,6 +328,13 @@ export const Content = () => {
             <Input
               placeholder="Company name"
               name="company_name"
+              value={formData.company_name}
+              onInput={(e: any) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  company_name: e.target.value,
+                }))
+              }
               className={clsx({
                 "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
                   error && (error as any).fieldErrors?.company_name,
@@ -337,6 +376,10 @@ export const Content = () => {
           <Input
             placeholder="Your position"
             name="position"
+            value={formData.position}
+            onInput={(e: any) =>
+              setFormData((prev) => ({ ...prev, position: e.target.value }))
+            }
             className={clsx({
               "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
                 error && (error as any).fieldErrors?.position,
@@ -346,6 +389,10 @@ export const Content = () => {
         <Input
           placeholder="Your email"
           name="email"
+          value={formData.email}
+          onInput={(e: any) =>
+            setFormData((prev) => ({ ...prev, email: e.target.value }))
+          }
           className={clsx("w-full sm:w-2/4 mt-4", {
             "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
               error && (error as any).fieldErrors?.email,
@@ -363,7 +410,7 @@ export const Content = () => {
           <Button
             className="py-2 px-6 rounded-full text-lg underline cursor-pointer"
             variant={"ghost"}
-            onClick={() => router.refresh()}
+            onClick={clearData}
             type="button"
           >
             Clear All
