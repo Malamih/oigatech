@@ -18,6 +18,14 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://oigatech-api.onrender.com/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
