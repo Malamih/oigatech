@@ -14,7 +14,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   }, [value]);
   return (
     <>
-      {!props?.defaultValue ? (
+      {props?.defaultValue ? (
         <input
           type={type}
           data-slot="input"
@@ -32,7 +32,6 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         <input
           type={type}
           data-slot="input"
-          onInput={(e) => setValue((e.target as HTMLInputElement).value)}
           className={cn(
             "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-b-gray-300 flex h-9 w-full min-w-0 border-b-2 bg-transparent text-base transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
             "focus-visible:border-b-gray-500",

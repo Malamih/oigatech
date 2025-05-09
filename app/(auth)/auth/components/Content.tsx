@@ -3,8 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import Image from "next/image";
 import { useState } from "react";
-import EyeIcon from "@/assets/icon/eye.svg";
-import EyeClosedIcon from "@/assets/icon/eye-closed.svg";
 import { Button } from "@/components/ui/button";
 import { LoginRes, useLogin } from "@/services/auth";
 import { toast } from "sonner";
@@ -84,7 +82,21 @@ export const Content = () => {
                 className="icon w-[30px] h-[30px] rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer absolute top-2/4 -translate-y-2/4 right-4"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeClosedIcon /> : <EyeIcon />}
+                {showPassword ? (
+                  <Image
+                    src={"/icons/eye-closed.svg"}
+                    width={19}
+                    height={19}
+                    alt="eye-icon"
+                  />
+                ) : (
+                  <Image
+                    src={"/icons/eye.svg"}
+                    width={19}
+                    height={19}
+                    alt="eye-icon"
+                  />
+                )}
               </label>
             </div>
             {error?.fieldErrors?.password?.map((err: string, i: number) => {
