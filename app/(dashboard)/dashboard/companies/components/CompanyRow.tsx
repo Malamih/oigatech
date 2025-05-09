@@ -142,6 +142,7 @@ export const ComapnyRow = ({ company }: { company: any }) => {
               variant={"outline"}
               className="bg-white border-gray-300 w-full mt-2 cursor-pointer"
               onClick={handleDelete}
+              disabled={delete_pending}
             >
               <Trash />
               {delete_pending ? "Deleting..." : "Delete"}

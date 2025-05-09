@@ -81,22 +81,25 @@ export const Content = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isFetching_companies && (
-            <TableRow className="border-b-gray-300">
-              {Array.from({ length: 4 }).map((_, i) => {
-                return (
-                  <TableCell key={i}>
-                    <Skeleton className="w-full h-[30px]" />
+          {isFetching_companies &&
+            Array.from({ length: limit }).map((_, i) => {
+              return (
+                <TableRow className="border-b-gray-300" key={i}>
+                  {Array.from({ length: 4 }).map((_, i) => {
+                    return (
+                      <TableCell key={i}>
+                        <Skeleton className="w-full h-[30px]" />
+                      </TableCell>
+                    );
+                  })}
+                  <TableCell>
+                    <div className="icon m-auto w-[30px] h-[30px] flex items-center justify-center rounded-full hover:bg-gray-200 cursor-pointer duration-100 transition">
+                      <MoreVertical width={20} />
+                    </div>
                   </TableCell>
-                );
-              })}
-              <TableCell>
-                <div className="icon m-auto w-[30px] h-[30px] flex items-center justify-center rounded-full hover:bg-gray-200 cursor-pointer duration-100 transition">
-                  <MoreVertical width={20} />
-                </div>
-              </TableCell>
-            </TableRow>
-          )}
+                </TableRow>
+              );
+            })}
           {!isFetching_companies &&
             companies_data?.payload?.map((company, i: number) => {
               return <ComapnyRow company={company} key={i} />;

@@ -268,7 +268,7 @@ export const Edit = ({ user }: { user: User }) => {
                       <SelectItem
                         value={company.name}
                         key={i}
-                        disabled={company.users.length >= company.usersLimit}
+                        // disabled={company.users.length >= company.usersLimit}
                         defaultChecked={user.company?._id == company._id}
                       >
                         <span className="mr-2">{company.name}</span>
