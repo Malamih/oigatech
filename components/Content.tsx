@@ -84,6 +84,13 @@ export const Content = () => {
 
   const register = (e: React.FormEvent) => {
     e.preventDefault();
+    const hasNonEnglish = Object.values(formData).some((value) => {
+      return /[^a-zA-Z\s]/.test(value);
+    });
+    if (hasNonEnglish)
+      return toast.error(
+        "Form can't contain non english letters, please make sure that all of the data contains only english"
+      );
     if (formRef.current) {
       const form = new FormData(formRef.current);
       const phone = form.get("phone_number");
@@ -120,15 +127,18 @@ export const Content = () => {
             e.preventDefault();
           }
         }}
-        className="flex flex-col"
+        className="flex flex-col gap-2"
       >
-        <div className="group flex flex-col sm:flex-row gap-4 justify-between">
+        <div className="group flex flex-col sm:flex-row gap-6 justify-between">
           <Input
             placeholder="First name"
             name="first_name"
             value={formData.first_name}
             onInput={(e: any) =>
-              setFormData((prev) => ({ ...prev, first_name: e.target.value }))
+              setFormData((prev) => ({
+                ...prev,
+                first_name: e.target.value,
+              }))
             }
             className={clsx({
               "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
@@ -378,7 +388,10 @@ export const Content = () => {
             name="position"
             value={formData.position}
             onInput={(e: any) =>
-              setFormData((prev) => ({ ...prev, position: e.target.value }))
+              setFormData((prev) => ({
+                ...prev,
+                position: e.target.value,
+              }))
             }
             className={clsx({
               "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":
@@ -391,7 +404,10 @@ export const Content = () => {
           name="email"
           value={formData.email}
           onInput={(e: any) =>
-            setFormData((prev) => ({ ...prev, email: e.target.value }))
+            setFormData((prev) => ({
+              ...prev,
+              email: e.target.value,
+            }))
           }
           className={clsx("w-full sm:w-2/4 mt-4", {
             "border-red-300 placeholder:text-red-400 focus-visible:border-red-300":

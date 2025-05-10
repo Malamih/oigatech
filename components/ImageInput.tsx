@@ -45,7 +45,16 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
     setIsDragging(false);
 
     const files = e.dataTransfer.files;
+
     if (files && files.length > 0) {
+      const fileSizeInMB = files[0].size / (1024 * 1024);
+      const maxSizeInMB = 5;
+
+      if (fileSizeInMB > maxSizeInMB) {
+        return toast.warning(
+          "Image is more than the maximum size (5mb) make sure that your image is less than 5mb to continue."
+        );
+      }
       if (!files[0].type.startsWith("image/")) {
         toast.error("The selected file is not an image.");
         return;
@@ -59,8 +68,17 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
 
   const handleChange = useCallback(async (e: any) => {
     e.preventDefault();
+
     const files = e.target.files;
     if (files && files.length > 0) {
+      const fileSizeInMB = files[0].size / (1024 * 1024);
+      const maxSizeInMB = 5;
+
+      if (fileSizeInMB > maxSizeInMB) {
+        return toast.warning(
+          "Image is more than the maximum size (5mb) make sure that your image is less than 5mb to continue."
+        );
+      }
       if (!files[0].type.startsWith("image/")) {
         toast.error("The selected file is not an image.");
         return;
@@ -89,7 +107,7 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
       />
       <label
         className={clsx(
-          "input w-[200px] m-auto sm:m-0 min-h-[130px] overflow-hidden rounded-sm cursor-pointer border-dotted border-2 border-gray-500 flex items-center flex-col gap-2",
+          "input w-[220px] m-auto sm:m-0 min-h-[130px] overflow-hidden rounded-sm cursor-pointer border-dotted border-2 border-gray-500 flex items-center flex-col gap-2",
           {
             [styles.dragActive]: isDragging,
             [styles.error]: isError,
@@ -111,7 +129,7 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
             />
           </div>
         ) : (
-          <div className="py-2 px-4 flex items-center flex-col">
+          <div className="py-2 px-6 flex items-center flex-col gap-1">
             <Image
               src={"/upload.png"}
               width={40}
@@ -123,7 +141,7 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
             </h1>
             <h2 className="font-medium text-gray-400">- OR -</h2>
             <Button
-              className="rounded-xs bg-gray-800 px-4 py-0 mt-2 cursor-pointer hover:bg-gray-700"
+              className="rounded-sm bg-gray-600 px-4 py-0 mt-2 cursor-pointer hover:bg-gray-700"
               onClick={handleClick}
               type="button"
             >
@@ -135,10 +153,10 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
       <div className="conditions flex flex-col sm:flex-row gap-2">
         <Image
           src={"/imageEg.png"}
-          className="w-[120px] h-auto m-auto md:m-0 object-cover"
+          className="w-[130px] rounded-sm shadow-xl border border-gray-300 m-auto md:m-0 object-cover"
           alt="eg"
-          width={120}
-          height={100}
+          width={111}
+          height={126}
         />
         <div className="list">
           <h1 className="font-medium text-gray-400 text-center md:text-left">

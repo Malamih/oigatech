@@ -31,7 +31,7 @@ export const Sponsors = () => {
   ];
   return (
     <div
-      className="sponsors overflow-hidden my-3 flex flex-wrap gap-4 px-4 py-3 self-center max-w-[700px] lg:max-w-[400px] w-full rounded-tr-2xl rounded-br-2xl rounded-tl-2xl rounded-bl-2xl lg:rounded-tl-[0] lg:rounded-bl-[0]"
+      className="sponsors overflow-hidden my-3 flex flex-wrap gap-4 px-4 py-4 self-center max-w-[700px] lg:max-w-[400px] w-full rounded-tr-2xl rounded-br-2xl rounded-tl-2xl rounded-bl-2xl lg:rounded-tl-[0] lg:rounded-bl-[0]"
       style={{ background: "linear-gradient(to bottom, #EA4C29, #F6AD20)" }}
     >
       {sponsorsGroup.map((group, i: number) => {
@@ -40,21 +40,16 @@ export const Sponsors = () => {
             <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
               {group.name}
             </h1>
-            <div
-              className="logos flex items-center justify-center sm:grid sm:items-start sm:justify-start flex-wrap gap-3 "
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(50px, 1fr))",
-              }}
-            >
+            <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
               {group.logos.map((logo, i: number) => {
                 return (
                   <div className="logo flex items-start justify-center" key={i}>
                     <Image
                       src={folderLocation + logo}
-                      width={50}
+                      width={70}
                       height={100}
                       alt="logo"
-                      className="h-auto w-[80px] lg:w-[50px]"
+                      // className="h-auto w-[80px] lg:w-[50px]"
                     />
                   </div>
                 );

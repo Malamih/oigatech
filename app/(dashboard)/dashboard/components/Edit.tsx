@@ -36,6 +36,7 @@ export const Edit = ({ user }: { user: User }) => {
   const [sendVia, setSendVia] = useState<"whatsapp" | "email" | "">(
     (user?.send_via as "email" | "whatsapp") || ""
   );
+  const [status, setStatus] = useState(user.status);
   const [nameInput, setNameInput] = useState("");
   const [company, setCompany] = useState("");
   const [name, setName] = useState("");
@@ -78,6 +79,7 @@ export const Edit = ({ user }: { user: User }) => {
     const form = new FormData(e.target);
     form.append("participation_type", participationType);
     form.append("send_via", sendVia);
+    form.append("status", status);
     if (participationType == "exhibitor") {
       form.append("company_name", company);
     }
@@ -189,25 +191,25 @@ export const Edit = ({ user }: { user: User }) => {
               <SelectContent className="w-full border-gray-200">
                 <SelectItem
                   value="exhibitor"
-                  defaultChecked={user.participation_type == "exhibitor"}
+                  disabled={user.participation_type == "exhibitor"}
                 >
                   Exhibitor
                 </SelectItem>
                 <SelectItem
                   value="press"
-                  defaultChecked={user.participation_type == "press"}
+                  disabled={user.participation_type == "press"}
                 >
                   Press
                 </SelectItem>
                 <SelectItem
                   value="visitor"
-                  defaultChecked={user.participation_type == "visitor"}
+                  disabled={user.participation_type == "visitor"}
                 >
                   Visitor
                 </SelectItem>
                 <SelectItem
                   value="organizer"
-                  defaultChecked={user.participation_type == "organizer"}
+                  disabled={user.participation_type == "organizer"}
                 >
                   organizer
                 </SelectItem>
@@ -225,15 +227,43 @@ export const Edit = ({ user }: { user: User }) => {
               <SelectContent className="w-full">
                 <SelectItem
                   value="whatsapp"
-                  defaultChecked={user.send_via == "whatsapp"}
+                  disabled={user.send_via == "whatsapp"}
                 >
                   Whatsapp
                 </SelectItem>
-                <SelectItem
-                  value="email"
-                  defaultChecked={user.send_via == "email"}
-                >
+                <SelectItem value="email" disabled={user.send_via == "email"}>
                   Email
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              onValueChange={(v: "pending" | "accepted" | "rejected") =>
+                setStatus(v)
+              }
+            >
+              <SelectTrigger
+                className={clsx("w-full", {
+                  "border-red-200 bg-red-100":
+                    register_error?.fieldErrors?.status,
+                })}
+              >
+                <SelectValue placeholder={user.status} />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                <SelectItem
+                  value="accepted"
+                  disabled={user.status == "accepted"}
+                >
+                  Accepted
+                </SelectItem>
+                <SelectItem
+                  value="rejected"
+                  disabled={user.status == "rejected"}
+                >
+                  Rejected
+                </SelectItem>
+                <SelectItem value="pending" disabled={user.status == "pending"}>
+                  Pending
                 </SelectItem>
               </SelectContent>
             </Select>
@@ -263,12 +293,16 @@ export const Edit = ({ user }: { user: User }) => {
                     onInput={(e: any) => setNameInput(e.target.value)}
                   />
                   {isFetching && <span>Loading...</span>}
+                  {data?.payload?.length === 0 && (
+                    <span className="py-4 font-medium text-gray-400">
+                      No Companies
+                    </span>
+                  )}
                   {data?.payload?.map((company: any, i: number) => {
                     return (
                       <SelectItem
                         value={company.name}
                         key={i}
-                        // disabled={company.users.length >= company.usersLimit}
                         defaultChecked={user.company?._id == company._id}
                       >
                         <span className="mr-2">{company.name}</span>

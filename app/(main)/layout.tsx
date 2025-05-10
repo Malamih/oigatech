@@ -69,7 +69,7 @@ export default function RootLayout({
             />
           </div>
           <div className="page flex flex-col lg:flex-row z-10 p-3">
-            <div className="content flex flex-col relative p-3 bg-white min-h-[500px] rounded-tl-2xl rounded-bl-2xl max-w-[700px] w-auto">
+            <div className="content flex flex-col relative p-4 bg-white min-h-[500px] rounded-tl-2xl rounded-bl-2xl max-w-[800px] w-auto">
               <Image
                 src={"/content-background.png"}
                 fill

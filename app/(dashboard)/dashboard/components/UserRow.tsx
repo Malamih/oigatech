@@ -131,12 +131,15 @@ export const UserRow = ({ user }: { user: User }) => {
       <TableCell className="text-gray-400 text-center">
         {user.participation_type}
       </TableCell>
-      <TableCell className="text-gray-400 text-center">
+      <TableCell className="text-center font-medium">
         <span
           className={clsx("py-[5px] px-3 rounded-full capitalize", {
-            "bg-green-50 border border-green-300": user.status == "accepted",
-            "bg-red-50 border border-red-300": user.status == "rejected",
-            "bg-yellow-50 border border-yellow-300": user.status == "pending",
+            "bg-green-100 border border-green-600 text-green-500":
+              user.status == "accepted",
+            "bg-red-100 border border-red-600 text-red-500":
+              user.status == "rejected",
+            "bg-yellow-100 border border-yellow-600 text-yellow-500":
+              user.status == "pending",
           })}
         >
           {user.status}
