@@ -245,7 +245,7 @@ export const Content = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isFetching &&
+            {/* {isFetching &&
               Array.from({ length: limit }).map((_, i: number) => {
                 return (
                   <TableRow className="border-b-gray-300" key={i}>
@@ -266,11 +266,14 @@ export const Content = () => {
                     </TableCell>
                   </TableRow>
                 );
-              })}
-            {!isFetching &&
-              data?.payload &&
+              })} */}
+            {data?.payload &&
               data.payload
-                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                .sort(
+                  (a, b) =>
+                    new Date(b.createdAt).getTime() -
+                    new Date(a.createdAt).getTime()
+                )
                 .map((user, i: number) => {
                   return <UserRow key={i} user={user} />;
                 })}
