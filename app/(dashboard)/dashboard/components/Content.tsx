@@ -10,7 +10,6 @@ import {
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -19,8 +18,7 @@ import { UserRow } from "./UserRow";
 import { getUsers } from "@/services/users";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { MoreHorizontal, RefreshCcw } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
+import { RefreshCcw } from "lucide-react";
 import {
   Pagination,
   PaginationContent,

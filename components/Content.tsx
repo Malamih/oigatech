@@ -84,10 +84,10 @@ export const Content = () => {
 
   const register = (e: React.FormEvent) => {
     e.preventDefault();
-    const hasNonEnglish = Object.values(formData).some((value) => {
-      return /[^a-zA-Z\s]/.test(value);
+    const hasNonEnglishLetters = Object.values(formData).some((value) => {
+      return /[^\u0000-\u007F]/.test(value);
     });
-    if (hasNonEnglish)
+    if (hasNonEnglishLetters)
       return toast.error(
         "Form can't contain non english letters, please make sure that all of the data contains only english"
       );
