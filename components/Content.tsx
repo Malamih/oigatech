@@ -127,7 +127,7 @@ export const Content = () => {
             e.preventDefault();
           }
         }}
-        className="flex flex-col gap-2"
+        className="flex flex-col h-full gap-4"
       >
         <div className="group flex flex-col sm:flex-row gap-6 justify-between">
           <Input

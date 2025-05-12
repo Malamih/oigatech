@@ -96,7 +96,7 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
   };
 
   return (
-    <div className="mt-6 flex flex-col sm:flex-row gap-2">
+    <div className="mt-6 flex-[1] flex flex-col sm:flex-row gap-2">
       <input
         type="file"
         name="image"

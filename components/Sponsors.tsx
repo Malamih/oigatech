@@ -28,6 +28,10 @@ export const Sponsors = () => {
       name: "Member Of",
       logos: ["/10.png", "/11.png", "/12.png", "/13.png"],
     },
+    {
+      name: "Diamond Sponsor",
+      logos: ["/14.png"],
+    },
   ];
   return (
     <div
@@ -46,7 +50,7 @@ export const Sponsors = () => {
                   <div className="logo flex items-start justify-center" key={i}>
                     <Image
                       src={folderLocation + logo}
-                      width={70}
+                      width={72}
                       height={100}
                       alt="logo"
                       // className="h-auto w-[80px] lg:w-[50px]"
@@ -58,7 +62,7 @@ export const Sponsors = () => {
           </div>
         );
       })}
-      <div className="contact text-white mt-4 flex flex-col gap-4">
+      <div className="contact text-white mt-4 flex flex-col w-full gap-4">
         <div className="flex items-center gap-2">
           <Phone className="stroke-white" width={20} />
           <span>+964 7702 444 844</span>
