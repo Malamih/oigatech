@@ -28,8 +28,20 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useQuery } from "@tanstack/react-query";
+import ApiClient from "@/lib/apiClient";
+import { useRouter } from "next/navigation";
 
 export const Content = () => {
+  const router = useRouter();
+  const {
+    data: authData,
+    isFetching: authFetching,
+    error: authError,
+  } = useQuery({
+    queryFn: new ApiClient<any, any>("/admin/checkAuth").post,
+    queryKey: ["auth"],
+  });
   const [page, setPage] = useState(1);
   const [email, setEmail] = useState("");
   const [debouncedEmail, setDebouncedEmail] = useState("");
@@ -152,98 +164,106 @@ export const Content = () => {
   };
 
   return (
-    <div
-      className="content bg-white p-4 rounded-sm m-2 w-[calc(100vw-240px)]"
-      style={{ gridArea: "content" }}
-    >
-      <div className="header flex items-center justify-between">
-        <h1 className="font-medium text-lg">Total Users: {total || 0}</h1>
-        <AddUsesr />
-      </div>
-      <div>
-        <div className="header mt-4 flex items-center justify-between">
-          <div className="input w-full flex items-center gap-2">
-            <input
-              type="text"
-              name="search"
-              className="border border-gray-300 rounded-sm py-1 px-2 outline-none w-full max-w-[400px]"
-              placeholder="Search by email..."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <div
-              className="refresh flex items-center gap-2 py-1 px-3 border border-gray-300 rounded-sm hover:bg-gray-50 cursor-pointer"
-              onClick={() => refetch()}
-            >
-              <span className="text-sm">Refresh</span>
-              <RefreshCcw width={15} />
-            </div>
+    <>
+      {!authFetching && (
+        <div
+          className="content bg-white p-4 rounded-sm m-2 w-[calc(100vw-240px)]"
+          style={{ gridArea: "content" }}
+        >
+          <div className="header flex items-center justify-between">
+            <h1 className="font-medium text-lg">Total Users: {total || 0}</h1>
+            <AddUsesr />
           </div>
-          <div className="filters flex items-center gap-4">
-            <Select
-              onValueChange={(v: "accepted" | "rejected" | "pending" | "all") =>
-                setStatus(v)
-              }
-              value={status}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent className="border-gray-100">
-                <SelectItem
-                  value="accepted"
-                  className="flex items-center gap-2"
+          <div>
+            <div className="header mt-4 flex items-center justify-between">
+              <div className="input w-full flex items-center gap-2">
+                <input
+                  type="text"
+                  name="search"
+                  className="border border-gray-300 rounded-sm py-1 px-2 outline-none w-full max-w-[400px]"
+                  placeholder="Search by email..."
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <div
+                  className="refresh flex items-center gap-2 py-1 px-3 border border-gray-300 rounded-sm hover:bg-gray-50 cursor-pointer"
+                  onClick={() => refetch()}
                 >
-                  <div className="circle w-[10px] h-[10px] rounded-full bg-green-200 border border-green-600"></div>
-                  <span>Accepted</span>
-                </SelectItem>
-                <SelectItem value="rejected">
-                  <div className="circle w-[10px] h-[10px] rounded-full bg-red-200 border border-red-600"></div>
-                  <span>Rejected</span>
-                </SelectItem>
-                <SelectItem value="pending">
-                  <div className="circle w-[10px] h-[10px] rounded-full bg-yellow-200 border border-yellow-600"></div>
-                  <span>Pending</span>
-                </SelectItem>
-                <SelectItem value="all" className="text-center">
-                  <div className="circle w-[10px] h-[10px] rounded-full bg-blue-200 border border-blue-600"></div>
-                  <span className="text-center">All</span>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        <Table className="mt-4 min-w-[1200px]">
-          <TableHeader>
-            <TableRow className="border-b-gray-300">
-              <TableHead className="text-gray-400 text-center">Image</TableHead>
-              <TableHead className="text-gray-400 text-center">
-                Full name
-              </TableHead>
-              <TableHead className="text-gray-400 text-center">Email</TableHead>
-              <TableHead className="text-gray-400 text-center">Phone</TableHead>
-              <TableHead className="text-gray-400 text-center">
-                Company
-              </TableHead>
-              <TableHead className="text-gray-400 text-center">
-                Position
-              </TableHead>
-              <TableHead className="text-gray-400 text-center">
-                Send via
-              </TableHead>
-              <TableHead className="text-gray-400 text-center">
-                Participation type
-              </TableHead>
-              <TableHead className="text-gray-400 text-center">
-                Status
-              </TableHead>
-              <TableHead className="text-center text-gray-400">
-                Options
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {/* {isFetching &&
+                  <span className="text-sm">Refresh</span>
+                  <RefreshCcw width={15} />
+                </div>
+              </div>
+              <div className="filters flex items-center gap-4">
+                <Select
+                  onValueChange={(
+                    v: "accepted" | "rejected" | "pending" | "all"
+                  ) => setStatus(v)}
+                  value={status}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent className="border-gray-100">
+                    <SelectItem
+                      value="accepted"
+                      className="flex items-center gap-2"
+                    >
+                      <div className="circle w-[10px] h-[10px] rounded-full bg-green-200 border border-green-600"></div>
+                      <span>Accepted</span>
+                    </SelectItem>
+                    <SelectItem value="rejected">
+                      <div className="circle w-[10px] h-[10px] rounded-full bg-red-200 border border-red-600"></div>
+                      <span>Rejected</span>
+                    </SelectItem>
+                    <SelectItem value="pending">
+                      <div className="circle w-[10px] h-[10px] rounded-full bg-yellow-200 border border-yellow-600"></div>
+                      <span>Pending</span>
+                    </SelectItem>
+                    <SelectItem value="all" className="text-center">
+                      <div className="circle w-[10px] h-[10px] rounded-full bg-blue-200 border border-blue-600"></div>
+                      <span className="text-center">All</span>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <Table className="mt-4 min-w-[1200px]">
+              <TableHeader>
+                <TableRow className="border-b-gray-300">
+                  <TableHead className="text-gray-400 text-center">
+                    Image
+                  </TableHead>
+                  <TableHead className="text-gray-400 text-center">
+                    Full name
+                  </TableHead>
+                  <TableHead className="text-gray-400 text-center">
+                    Email
+                  </TableHead>
+                  <TableHead className="text-gray-400 text-center">
+                    Phone
+                  </TableHead>
+                  <TableHead className="text-gray-400 text-center">
+                    Company
+                  </TableHead>
+                  <TableHead className="text-gray-400 text-center">
+                    Position
+                  </TableHead>
+                  <TableHead className="text-gray-400 text-center">
+                    Send via
+                  </TableHead>
+                  <TableHead className="text-gray-400 text-center">
+                    Participation type
+                  </TableHead>
+                  <TableHead className="text-gray-400 text-center">
+                    Status
+                  </TableHead>
+                  <TableHead className="text-center text-gray-400">
+                    Options
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* {isFetching &&
               Array.from({ length: limit }).map((_, i: number) => {
                 return (
                   <TableRow className="border-b-gray-300" key={i}>
@@ -265,69 +285,65 @@ export const Content = () => {
                   </TableRow>
                 );
               })} */}
-            {data?.payload &&
-              data.payload
-                .sort(
-                  (a, b) =>
-                    new Date(b.createdAt).getTime() -
-                    new Date(a.createdAt).getTime()
-                )
-                .map((user, i: number) => {
-                  return <UserRow key={i} user={user} />;
-                })}
-          </TableBody>
-        </Table>
-        {totalPages > 1 && (
-          <div className="pagination-container flex justify-center mt-6">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handlePageChange(page - 1);
-                    }}
-                    className={
-                      page === 1 ? "pointer-events-none opacity-50" : ""
-                    }
-                  />
-                </PaginationItem>
+                {data?.payload &&
+                  data.payload.map((user, i: number) => {
+                    return <UserRow key={i} user={user} />;
+                  })}
+              </TableBody>
+            </Table>
+            {totalPages > 1 && (
+              <div className="pagination-container flex justify-center mt-6">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(page - 1);
+                        }}
+                        className={
+                          page === 1 ? "pointer-events-none opacity-50" : ""
+                        }
+                      />
+                    </PaginationItem>
 
-                {generatePaginationItems()}
+                    {generatePaginationItems()}
 
-                <PaginationItem>
-                  <PaginationNext
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handlePageChange(page + 1);
-                    }}
-                    className={
-                      page === totalPages
-                        ? "pointer-events-none opacity-50"
-                        : ""
-                    }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+                    <PaginationItem>
+                      <PaginationNext
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(page + 1);
+                        }}
+                        className={
+                          page === totalPages
+                            ? "pointer-events-none opacity-50"
+                            : ""
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
+
+            {data?.payload?.length === 0 && (
+              <h1 className="text-center mt-4 text-lg font-medium text-gray-500">
+                No users
+              </h1>
+            )}
+
+            {/* Pagination info */}
+            {total > 0 && (
+              <div className="text-center text-sm text-gray-500 mt-2">
+                Showing page {page} of {totalPages} • {total} total users
+              </div>
+            )}
           </div>
-        )}
-
-        {data?.payload?.length === 0 && (
-          <h1 className="text-center mt-4 text-lg font-medium text-gray-500">
-            No users
-          </h1>
-        )}
-
-        {/* Pagination info */}
-        {total > 0 && (
-          <div className="text-center text-sm text-gray-500 mt-2">
-            Showing page {page} of {totalPages} • {total} total users
-          </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };

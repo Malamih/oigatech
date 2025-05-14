@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import gsap from "gsap";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export const Intro = () => {
   const firstText = useRef<HTMLHeadingElement | null>(null);

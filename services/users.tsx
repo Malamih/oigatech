@@ -1,7 +1,6 @@
-import Success from "@/app/(main)/success/page";
-import ApiClient, { BASE_URL } from "@/lib/apiClient";
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+"use client"
+import ApiClient from "@/lib/apiClient";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export type ImageOrQRCode = {
   _id: string;

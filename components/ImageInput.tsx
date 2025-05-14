@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 import { DragEvent, useCallback, useRef, useState } from "react";
 import clsx from "clsx";
 import styles from "@/styles/imageInput.module.scss";
-import { XIcon } from "lucide-react";
 import { useReadImage } from "@/lib/imageReader";
 import { toast } from "sonner";
 

@@ -109,7 +109,7 @@ export const UserRow = ({ user }: { user: User }) => {
         <img
           src={user?.image?.url || "https://picsum.photos/500/300"}
           alt="profile"
-          className="w-[90px] h-[90px] m-auto rounded-sm object-cover"
+          className="min-w-[90px] h-[90px] m-auto rounded-sm object-cover"
         />
       </TableCell>
       <TableCell className="text-gray-400 text-center">

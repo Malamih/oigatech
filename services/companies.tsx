@@ -1,3 +1,4 @@
+"use client";
 import ApiClient from "@/lib/apiClient";
 import { CompanyResponse, GetCompanies } from "@/types/company";
 import { useMutation, useQuery } from "@tanstack/react-query";

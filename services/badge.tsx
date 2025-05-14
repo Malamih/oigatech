@@ -1,11 +1,9 @@
+"use client";
 import ApiClient from "@/lib/apiClient";
-import { badgeConditionRes } from "@/middleware";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const getBadgeCondition = () => {
-  const endpoint = new ApiClient<any, badgeConditionRes>(
-    "/admin/badgeCondition"
-  );
+  const endpoint = new ApiClient<any, any>("/admin/badgeCondition");
   return useQuery({
     queryFn: endpoint.get,
     queryKey: ["badge-condition"],

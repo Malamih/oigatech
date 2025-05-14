@@ -10,7 +10,7 @@ export const Sponsors = () => {
     },
     {
       name: "In association with",
-      logos: ["/2.png", "/3.png", "/4.png", "/5.png"],
+      logos: ["/2.png", "/3.png"],
     },
     {
       name: "Host Venue",
@@ -38,30 +38,161 @@ export const Sponsors = () => {
       className="sponsors overflow-hidden my-3 flex flex-wrap gap-4 px-4 py-4 self-center max-w-[700px] lg:max-w-[400px] w-full rounded-tr-2xl rounded-br-2xl rounded-tl-2xl rounded-bl-2xl lg:rounded-tl-[0] lg:rounded-bl-[0]"
       style={{ background: "linear-gradient(to bottom, #EA4C29, #F6AD20)" }}
     >
-      {sponsorsGroup.map((group, i: number) => {
-        return (
-          <div className="group w-full sm:w-[calc(50%-16px)]" key={i}>
-            <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
-              {group.name}
-            </h1>
-            <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
-              {group.logos.map((logo, i: number) => {
-                return (
-                  <div className="logo flex items-start justify-center" key={i}>
-                    <Image
-                      src={folderLocation + logo}
-                      width={72}
-                      height={100}
-                      alt="logo"
-                      // className="h-auto w-[80px] lg:w-[50px]"
-                    />
-                  </div>
-                );
-              })}
+      <div className="group w-full sm:w-[calc(50%-16px)]">
+        <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
+          Sponsored By
+        </h1>
+        <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/1.png"}
+              width={60}
+              height={100}
+              alt="logo"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="group w-full sm:w-[calc(50%-16px)]">
+        <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
+          In association with
+        </h1>
+        <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/2.png"}
+              width={80}
+              height={100}
+              alt="logo"
+            />
+          </div>
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/3.png"}
+              width={60}
+              height={100}
+              alt="logo"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="group w-full sm:w-[calc(50%-16px)]">
+        <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
+          Host Venue
+        </h1>
+        <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/6.png"}
+              width={60}
+              height={100}
+              alt="logo"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="group w-full sm:w-[calc(50%-16px)]">
+        <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
+          Organized By
+        </h1>
+        <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/7.png"}
+              width={70}
+              height={100}
+              alt="logo"
+            />
+          </div>
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/8-1.png"}
+              width={70}
+              height={100}
+              alt="logo"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="group w-full sm:w-[calc(50%-16px)]">
+        <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
+          ISO Certificate
+        </h1>
+        <div className="logos flex flex-col items-center justify-center sm:items-start sm:justify-start flex-wrap gap-1">
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/8.png"}
+              width={70}
+              height={100}
+              alt="logo"
+            />
+          </div>
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/9.png"}
+              width={70}
+              height={100}
+              alt="logo"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="group w-full sm:w-[calc(50%-16px)]">
+        <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
+          Member of
+        </h1>
+        <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-2">
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/10.png"}
+              width={50}
+              height={100}
+              alt="logo"
+            />
+          </div>
+          <div className="logo flex items-start justify-center">
+            <Image
+              src={folderLocation + "/11.png"}
+              width={100}
+              height={100}
+              alt="logo"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="logo flex items-start justify-center">
+              <Image
+                src={folderLocation + "/12.png"}
+                width={80}
+                height={100}
+                alt="logo"
+              />
+            </div>
+            <div className="logo flex items-start justify-center -translate-y-2">
+              <Image
+                src={folderLocation + "/13.png"}
+                width={80}
+                height={100}
+                alt="logo"
+              />
             </div>
           </div>
-        );
-      })}
+        </div>
+        <div className="group w-full mt-2">
+          <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
+            Diamond Sponsor
+          </h1>
+          <div className="logos flex flex-col items-center justify-center sm:items-start sm:justify-start flex-wrap gap-1">
+            <div className="logo flex items-start justify-center">
+              <Image
+                src={folderLocation + "/14.png"}
+                width={70}
+                height={100}
+                alt="logo"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="contact text-white mt-4 flex flex-col w-full gap-4">
         <div className="flex items-center gap-2">
           <Phone className="stroke-white" width={20} />

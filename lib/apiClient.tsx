@@ -1,5 +1,7 @@
+"use client";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export const BASE_URL = "https://oigatech-api.onrender.com";
 
@@ -20,7 +22,7 @@ axiosInstance.interceptors.request.use((req) => {
 
 export default class ApiClient<Req, Res> {
   endpoint: string;
-
+  router = useRouter();
   constructor(endpoint: string) {
     this.endpoint = endpoint;
   }
@@ -36,6 +38,10 @@ export default class ApiClient<Req, Res> {
         return res.data;
       })
       .catch((err) => {
+        console.log(err);
+        if (err.status == 401) {
+          this.router.push("/auth");
+        }
         throw err;
       });
   };
@@ -45,6 +51,7 @@ export default class ApiClient<Req, Res> {
       .put<Res>(`${this.endpoint}${id ? `/${id}` : ""}`, data)
       .then((res) => res.data)
       .catch((err) => {
+        console.log(err);
         throw err.response.data;
       });
   };
@@ -56,6 +63,10 @@ export default class ApiClient<Req, Res> {
       })
       .then((res) => res.data)
       .catch((err) => {
+        console.log(err);
+        if (err.status == 401) {
+          this.router.push("/auth");
+        }
         throw err.response?.data || err;
       });
   };
@@ -67,6 +78,10 @@ export default class ApiClient<Req, Res> {
       })
       .then((res) => res.data)
       .catch((err) => {
+        console.log(err);
+        if (err.status == 401) {
+          this.router.push("/auth");
+        }
         throw err.response.data;
       });
   };
