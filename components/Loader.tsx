@@ -1,7 +1,8 @@
-"use client"
+"use client";
+import clsx from "clsx";
 import { useState, useEffect } from "react";
 
-export default function Loader({ text = "Loading" }) {
+export default function Loader({ text = "Loading", color = "white" }) {
   const [phase, setPhase] = useState(0);
   const dotCount = 3; // Reduced to three dots as requested
 
@@ -31,13 +32,24 @@ export default function Loader({ text = "Loading" }) {
   };
 
   return (
-    <div className="flex items-center font-medium text-white">
+    <div
+      className={clsx("flex items-center font-medium", {
+        "text-black": color == "black",
+        "text-white": color != "black",
+      })}
+    >
       <span className="mr-2">{text}</span>
       <div className="flex space-x-1">
         {[...Array(dotCount)].map((_, i) => (
           <span
             key={i}
-            className="inline-block w-1 h-1 text-white bg-white rounded-full transition-transform duration-300 ease-in-out"
+            className={clsx(
+              "inline-block w-1 h-1 rounded-full  transition-transform duration-300 ease-in-out",
+              {
+                "text-black bg-black": color == "black",
+                "text-white bg-white": color != "black",
+              }
+            )}
             style={getDotStyles(i)}
           />
         ))}

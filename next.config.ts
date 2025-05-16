@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true, // This will skip TypeScript errors during builds
   },
+  output: "export",
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -18,14 +19,14 @@ const nextConfig: NextConfig = {
 
     return config;
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "https://oigatech-api.onrender.com/:path*",
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: "https://oigatech-api.onrender.com/:path*",
+  //     },
+  //   ];
+  // },
 };
 
 export default nextConfig;

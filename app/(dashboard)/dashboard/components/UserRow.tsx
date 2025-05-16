@@ -22,6 +22,7 @@ import { Edit } from "./Edit";
 import { Button } from "@/components/ui/button";
 import { BASE_URL } from "@/lib/apiClient";
 import { useMutation } from "@tanstack/react-query";
+import { formatDate } from "@/helpers/date";
 
 const download = async (user: User) => {
   try {
@@ -130,6 +131,9 @@ export const UserRow = ({ user }: { user: User }) => {
       </TableCell>
       <TableCell className="text-gray-400 text-center">
         {user.participation_type}
+      </TableCell>
+      <TableCell className="text-gray-400 text-center">
+        {formatDate(user.createdAt)}
       </TableCell>
       <TableCell className="text-center font-medium">
         <span

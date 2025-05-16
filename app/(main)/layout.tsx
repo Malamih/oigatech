@@ -61,20 +61,18 @@ export default function RootLayout({
         <Toaster />
         <QueryProvider>
           <div className="bg fixed top-0 left-0 w-full h-full z-0 opacity-[30%]">
-            <Image
+            <img
               src={"/background.png"}
               alt="background"
-              fill
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover absolute top-0 left-0"
             />
           </div>
           <div className="page flex flex-col lg:flex-row z-10 p-3">
             <div className="content flex flex-col relative p-4 bg-white min-h-[500px] rounded-tl-2xl rounded-bl-2xl max-w-[800px] w-auto">
-              <Image
+              <img
                 src={"/content-background.png"}
-                fill
                 alt="background"
-                className="z-0 opacity-50 object-cover"
+                className="z-0 opacity-50 object-cover absolute top-0 left-0"
                 draggable={false}
               />
               <Header />

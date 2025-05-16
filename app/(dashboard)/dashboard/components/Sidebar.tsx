@@ -26,7 +26,7 @@ export const Sidebar = () => {
     >
       <div className="logo p-4 border-b border-b-gray-300 flex justify-center w-full h-[60px]">
         <div className="image">
-          <Image
+          <img
             src={"/dashboard/malamihLogo.png"}
             alt="Logo"
             width={100}

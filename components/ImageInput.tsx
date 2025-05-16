@@ -129,7 +129,7 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
           </div>
         ) : (
           <div className="py-2 px-6 flex items-center flex-col gap-1">
-            <Image
+            <img
               src={"/upload.png"}
               width={40}
               height={50}
@@ -150,7 +150,7 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
         )}
       </label>
       <div className="conditions flex flex-col sm:flex-row gap-2">
-        <Image
+        <img
           src={"/imageEg.png"}
           className="w-[130px] rounded-sm shadow-xl border border-gray-300 m-auto md:m-0 object-cover"
           alt="eg"

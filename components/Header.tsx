@@ -5,7 +5,7 @@ export const Header = () => {
     <header className="z-1 relative">
       <div className="content flex flex-col sm:flex-row gap-6 pb-1">
         <div className="logo min-w-[200px]">
-          <Image src={"/header-logo.png"} alt="logo" width={200} height={100} />
+          <img src={"/header-logo.png"} alt="logo" width={200} height={100} />
         </div>
         <div className="title">
           <h1 className="font-medium text-2xl underline mb-2">

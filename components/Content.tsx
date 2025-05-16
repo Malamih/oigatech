@@ -28,6 +28,7 @@ export const Content = () => {
     error: badgeErr,
     isFetching: badgeFetching,
   } = getBadgeCondition();
+
   const [participation_type, setParticipation_type] = useState("");
   const [company, setCompany] = useState<string>("");
   const [phoneValue, setPhoneValue] = useState("");
@@ -114,7 +115,7 @@ export const Content = () => {
   const cleanNumbers = (str: string) =>
     str.replace(/[^\d]/g, "").replace(/^0/, "");
   const cleanCountry = (str: string) => str.replace(/[^\d]/g, "");
-  const cleanText = (str: string) => str.replace(/[^a-zA-Z]/g, "");
+  const cleanText = (str: string) => str.replace(/[^a-zA-Z\s]/g, "");
   const cleanEmail = (email: string) =>
     email.replace(/[^a-zA-Z0-9@._\-+]/g, "");
 
@@ -126,7 +127,12 @@ export const Content = () => {
   }, [badgeRes]);
   return (
     <>
-      {badgeRes?.condition == "active" && (
+      {badgeFetching && (
+        <div className="w-full h-full flex items-center justify-center">
+          <Loader text="Loading" color="black" />
+        </div>
+      )}
+      {!badgeFetching && badgeRes?.condition == "active" && (
         <form
           ref={formRef}
           onSubmit={register}

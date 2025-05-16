@@ -1,9 +1,8 @@
-"use client";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
-export const BASE_URL = "https://oigatech-api.onrender.com";
+export const BASE_URL = "https://oigatech.onrender.com";
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -38,7 +37,6 @@ export default class ApiClient<Req, Res> {
         return res.data;
       })
       .catch((err) => {
-        console.log(err);
         if (err.status == 401) {
           this.router.push("/auth");
         }
@@ -51,7 +49,9 @@ export default class ApiClient<Req, Res> {
       .put<Res>(`${this.endpoint}${id ? `/${id}` : ""}`, data)
       .then((res) => res.data)
       .catch((err) => {
-        console.log(err);
+        if (err.status == 401) {
+          this.router.push("/auth");
+        }
         throw err.response.data;
       });
   };
@@ -63,7 +63,6 @@ export default class ApiClient<Req, Res> {
       })
       .then((res) => res.data)
       .catch((err) => {
-        console.log(err);
         if (err.status == 401) {
           this.router.push("/auth");
         }
@@ -78,7 +77,6 @@ export default class ApiClient<Req, Res> {
       })
       .then((res) => res.data)
       .catch((err) => {
-        console.log(err);
         if (err.status == 401) {
           this.router.push("/auth");
         }

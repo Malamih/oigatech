@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import ApiClient from "@/lib/apiClient";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -30,7 +30,7 @@ export type User = {
   image: ImageOrQRCode;
   qrcode: ImageOrQRCode;
   status: "pending" | "accepted" | "rejected";
-  createdAt: number;
+  createdAt: string;
   company?: Company;
 };
 

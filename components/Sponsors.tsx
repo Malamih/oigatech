@@ -1,5 +1,4 @@
 import { Facebook, Instagram, Linkedin, Mail, Phone } from "lucide-react";
-import Image from "next/image";
 
 export const Sponsors = () => {
   const folderLocation = "/sponsers";
@@ -44,7 +43,7 @@ export const Sponsors = () => {
         </h1>
         <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
           <div className="logo flex items-start justify-center">
-            <Image
+            <img
               src={folderLocation + "/1.png"}
               width={60}
               height={100}
@@ -59,7 +58,7 @@ export const Sponsors = () => {
         </h1>
         <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
           <div className="logo flex items-start justify-center">
-            <Image
+            <img
               src={folderLocation + "/2.png"}
               width={80}
               height={100}
@@ -67,7 +66,7 @@ export const Sponsors = () => {
             />
           </div>
           <div className="logo flex items-start justify-center">
-            <Image
+            <img
               src={folderLocation + "/3.png"}
               width={60}
               height={100}
@@ -82,7 +81,7 @@ export const Sponsors = () => {
         </h1>
         <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
           <div className="logo flex items-start justify-center">
-            <Image
+            <img
               src={folderLocation + "/6.png"}
               width={60}
               height={100}
@@ -97,15 +96,7 @@ export const Sponsors = () => {
         </h1>
         <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-4">
           <div className="logo flex items-start justify-center">
-            <Image
-              src={folderLocation + "/7.png"}
-              width={70}
-              height={100}
-              alt="logo"
-            />
-          </div>
-          <div className="logo flex items-start justify-center">
-            <Image
+            <img
               src={folderLocation + "/8-1.png"}
               width={70}
               height={100}
@@ -120,7 +111,7 @@ export const Sponsors = () => {
         </h1>
         <div className="logos flex flex-col items-center justify-center sm:items-start sm:justify-start flex-wrap gap-1">
           <div className="logo flex items-start justify-center">
-            <Image
+            <img
               src={folderLocation + "/8.png"}
               width={70}
               height={100}
@@ -128,7 +119,7 @@ export const Sponsors = () => {
             />
           </div>
           <div className="logo flex items-start justify-center">
-            <Image
+            <img
               src={folderLocation + "/9.png"}
               width={70}
               height={100}
@@ -143,7 +134,7 @@ export const Sponsors = () => {
         </h1>
         <div className="logos flex items-center justify-center sm:items-start sm:justify-start flex-wrap gap-2">
           <div className="logo flex items-start justify-center">
-            <Image
+            <img
               src={folderLocation + "/10.png"}
               width={50}
               height={100}
@@ -151,7 +142,7 @@ export const Sponsors = () => {
             />
           </div>
           <div className="logo flex items-start justify-center">
-            <Image
+            <img
               src={folderLocation + "/11.png"}
               width={100}
               height={100}
@@ -160,7 +151,7 @@ export const Sponsors = () => {
           </div>
           <div className="flex items-center gap-2">
             <div className="logo flex items-start justify-center">
-              <Image
+              <img
                 src={folderLocation + "/12.png"}
                 width={80}
                 height={100}
@@ -168,7 +159,7 @@ export const Sponsors = () => {
               />
             </div>
             <div className="logo flex items-start justify-center -translate-y-2">
-              <Image
+              <img
                 src={folderLocation + "/13.png"}
                 width={80}
                 height={100}
@@ -177,19 +168,34 @@ export const Sponsors = () => {
             </div>
           </div>
         </div>
-        <div className="group w-full mt-2">
-          <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
-            Diamond Sponsor
-          </h1>
-          <div className="logos flex flex-col items-center justify-center sm:items-start sm:justify-start flex-wrap gap-1">
-            <div className="logo flex items-start justify-center">
-              <Image
-                src={folderLocation + "/14.png"}
-                width={70}
-                height={100}
-                alt="logo"
-              />
-            </div>
+      </div>
+      <div className="group  sm:w-[calc(50%-16px)] mt-2">
+        <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
+          Diamond Sponsor
+        </h1>
+        <div className="logos flex flex-col items-center justify-center sm:items-start sm:justify-start flex-wrap gap-1">
+          <div className="logo flex items-start justify-center">
+            <img
+              src={folderLocation + "/14.png"}
+              width={70}
+              height={100}
+              alt="logo"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="group w-full sm:w-[calc(50%-16px)] mt-2">
+        <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
+          Co-Organizer
+        </h1>
+        <div className="logos flex flex-col items-center justify-center sm:items-start sm:justify-start flex-wrap gap-1">
+          <div className="logo flex items-start justify-center">
+            <img
+              src={folderLocation + "/7.png"}
+              width={70}
+              height={100}
+              alt="logo"
+            />
           </div>
         </div>
       </div>

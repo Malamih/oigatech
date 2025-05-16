@@ -121,12 +121,7 @@ export const Edit = ({ user }: { user: User }) => {
                   className="hidden"
                 />
                 {preview != "" && (
-                  <Image
-                    src={preview}
-                    alt="image"
-                    fill
-                    className="object-cover"
-                  />
+                  <img src={preview} alt="image" className="object-cover" />
                 )}
               </label>
               <div className="inputs flex flex-col gap-2 flex-[1]">
