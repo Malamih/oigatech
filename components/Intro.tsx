@@ -49,7 +49,7 @@ export const Intro = () => {
   return (
     <div
       className={clsx(
-        "intro hidden items-center justify-center fixed top-0 left-0 w-full flex-col text-center font-bold text-white text-4xl h-full bg-[#EE6115] z-[20]"
+        "intro flex items-center justify-center fixed top-0 left-0 w-full flex-col text-center font-bold text-white text-4xl h-full bg-[#EE6115] z-[20]"
       )}
       ref={container}
     >

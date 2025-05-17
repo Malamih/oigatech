@@ -16,7 +16,7 @@ import {
 } from "@/services/users";
 import clsx from "clsx";
 import { MoreHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Edit } from "./Edit";
 import { Button } from "@/components/ui/button";
@@ -86,23 +86,41 @@ export const UserRow = ({ user }: { user: User }) => {
     error: whatsapp_error,
     mutate: send_whatsapp,
   }: any = sendWhatsapp(success, user._id);
-  if (
-    error ||
-    reject_error ||
-    delete_error ||
-    download_error ||
-    email_error ||
-    whatsapp_error
-  ) {
-    toast.error(
+
+  useEffect(() => {
+    console.log(
       error?.message ||
         reject_error?.message ||
         delete_error?.message ||
         download_error?.message ||
         email_error?.message ||
-        whatsapp_error?.error?.message
+        whatsapp_error?.message
     );
-  }
+    if (
+      error ||
+      reject_error ||
+      delete_error ||
+      download_error ||
+      email_error ||
+      whatsapp_error
+    ) {
+      toast.error(
+        error?.message ||
+          reject_error?.message ||
+          delete_error?.message ||
+          download_error?.message ||
+          email_error?.message ||
+          whatsapp_error?.message
+      );
+    }
+  }, [
+    error,
+    reject_error,
+    delete_error,
+    download_error,
+    email_error,
+    whatsapp_error,
+  ]);
 
   return (
     <TableRow className="border-b-gray-300">

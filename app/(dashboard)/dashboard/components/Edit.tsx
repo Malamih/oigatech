@@ -69,8 +69,18 @@ export const Edit = ({ user }: { user: User }) => {
 
   const setImage = async (e: any) => {
     const files = e.target.files;
-    if (!files) return;
-    const src = await useReadImage(files[0]);
+    if (!files || !files[0]) return;
+
+    const file = files[0];
+
+    if (!file.type.startsWith("image/")) {
+      toast.error(
+        "The file is not an image, please choose an image to continue"
+      );
+      return;
+    }
+
+    const src = await useReadImage(file);
     setPreview(src as string);
   };
 
@@ -102,7 +112,7 @@ export const Edit = ({ user }: { user: User }) => {
             <div className="inputs items-start flex gap-4">
               <label
                 className={clsx(
-                  "imageInput cursor-pointer hover:opacity-75 hover:bg-gray-200 relative min-w-[200px] min-h-[150px] h-full transition duration-200 bg-gray-100 border border-gray-300 rounded-sm overflow-hidden",
+                  "imageInput cursor-pointer hover:opacity-75 hover:bg-gray-200 relative min-w-[200px] min-h-[150px] w-[200px] transition duration-200 bg-gray-100 border border-gray-300 rounded-sm overflow-hidden",
                   {
                     "border-red-200 bg-red-50":
                       register_error?.fieldErrors?.image,
@@ -121,7 +131,11 @@ export const Edit = ({ user }: { user: User }) => {
                   className="hidden"
                 />
                 {preview != "" && (
-                  <img src={preview} alt="image" className="object-cover" />
+                  <img
+                    src={preview}
+                    alt="image"
+                    className="object-cover w-full h-[200px]"
+                  />
                 )}
               </label>
               <div className="inputs flex flex-col gap-2 flex-[1]">

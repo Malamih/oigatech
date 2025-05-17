@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export const BASE_URL = "https://oigatech.onrender.com";
+export const BASE_URL = "http://localhost:3003";
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,

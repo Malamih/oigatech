@@ -1,6 +1,5 @@
-import Image from "next/image";
 import { Button } from "./ui/button";
-import { DragEvent, useCallback, useRef, useState } from "react";
+import { DragEvent, useCallback, useRef, useState, useEffect } from "react";
 import clsx from "clsx";
 import styles from "@/styles/imageInput.module.scss";
 import { useReadImage } from "@/lib/imageReader";
@@ -18,81 +17,91 @@ const conditions = [
 export const ImageInput = ({ isError = false }: { isError: boolean }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLImageElement | null>(null);
 
-  const handleDragEnter = useCallback((e: any) => {
+  useEffect(() => {
+    return () => {
+      if (imageSrc && imageSrc.startsWith("blob:")) {
+        URL.revokeObjectURL(imageSrc);
+      }
+    };
+  }, [imageSrc]);
+
+  const handleDragEnter = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
   }, []);
 
-  const handleDragLeave = useCallback((e: any) => {
+  const handleDragLeave = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
   }, []);
 
-  const handleDragOver = useCallback((e: any) => {
+  const handleDragOver = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
   }, []);
 
-  const handleDrop = useCallback(async (e: DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
+  const processFile = useCallback(async (file: File) => {
+    const fileSizeInMB = file.size / (1024 * 1024);
+    const maxSizeInMB = 5;
 
-    const files = e.dataTransfer.files;
-
-    if (files && files.length > 0) {
-      const fileSizeInMB = files[0].size / (1024 * 1024);
-      const maxSizeInMB = 5;
-
-      if (fileSizeInMB > maxSizeInMB) {
-        return toast.warning(
-          "Image is more than the maximum size (5mb) make sure that your image is less than 5mb to continue."
-        );
-      }
-      if (!files[0].type.startsWith("image/")) {
-        toast.error("The selected file is not an image.");
-        return;
-      }
-      setFile(files[0]);
-      const src = await useReadImage(files[0]);
-      if (!imageRef.current) return;
-      imageRef.current.src = src as string;
+    if (fileSizeInMB > maxSizeInMB) {
+      toast.warning(
+        "Image is more than the maximum size (5mb) make sure that your image is less than 5mb to continue."
+      );
+      return false;
     }
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("The selected file is not an image.");
+      return false;
+    }
+
+    setFile(file);
+
+    if (inputRef.current) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      inputRef.current.files = dataTransfer.files;
+    }
+
+    const src = await useReadImage(file);
+    setImageSrc(src as string);
+    return true;
   }, []);
 
-  const handleChange = useCallback(async (e: any) => {
-    e.preventDefault();
+  const handleDrop = useCallback(
+    async (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsDragging(false);
 
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      const fileSizeInMB = files[0].size / (1024 * 1024);
-      const maxSizeInMB = 5;
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        await processFile(files[0]);
+      }
+    },
+    [processFile]
+  );
 
-      if (fileSizeInMB > maxSizeInMB) {
-        return toast.warning(
-          "Image is more than the maximum size (5mb) make sure that your image is less than 5mb to continue."
-        );
+  const handleChange = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        await processFile(files[0]);
       }
-      if (!files[0].type.startsWith("image/")) {
-        toast.error("The selected file is not an image.");
-        return;
-      }
-      setFile(files[0]);
-      const src = await useReadImage(files[0]);
-      if (!imageRef.current) return;
-      imageRef.current.src = src as string;
-    }
+    },
+    [processFile]
+  );
+
+  const handleClick = useCallback(() => {
+    inputRef.current?.click();
   }, []);
-
-  const handleClick = () => {
-    if (!inputRef.current) return;
-    inputRef.current.click();
-  };
 
   return (
     <div className="mt-6 flex-[1] flex flex-col sm:flex-row gap-2">
@@ -103,10 +112,11 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
         className="hidden"
         onChange={handleChange}
         ref={inputRef}
+        accept="image/*"
       />
       <label
         className={clsx(
-          "input w-[220px] m-auto sm:m-0 min-h-[130px] overflow-hidden rounded-sm cursor-pointer border-dotted border-2 border-gray-500 flex items-center flex-col gap-2",
+          "input w-[220px] m-auto sm:m-0 min-h-[130px] max-h-[200px] overflow-hidden rounded-sm cursor-pointer border-dotted border-2 border-gray-500 flex items-center flex-col gap-2",
           {
             [styles.dragActive]: isDragging,
             [styles.error]: isError,
@@ -118,23 +128,19 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        {file ? (
-          <div className="image relative w-full h-full bg-black">
+        {imageSrc ? (
+          <div className="relative w-full h-full">
+            {/* استبدال Image بـ img عادي */}
             <img
-              src={"/upload.png"}
-              alt="upload icon"
-              className="object-cover w-full h-full absolute top-0 left-0 hover:opacity-75 transition duration-200"
-              ref={imageRef}
+              src={imageSrc}
+              alt="uploaded preview"
+              className="object-cover w-full h-full hover:opacity-75 transition duration-200"
             />
           </div>
         ) : (
           <div className="py-2 px-6 flex items-center flex-col gap-1">
-            <img
-              src={"/upload.png"}
-              width={40}
-              height={50}
-              alt="upload icon"
-            />
+            {/* استبدال Image بـ img عادي للآيكون */}
+            <img src="/upload.png" width={40} height={50} alt="upload icon" />
             <h1 className="text-gray-400 text-center">
               Drag and drop files here
             </h1>
@@ -150,27 +156,28 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
         )}
       </label>
       <div className="conditions flex flex-col sm:flex-row gap-2">
-        <img
-          src={"/imageEg.png"}
-          className="w-[130px] rounded-sm shadow-xl border border-gray-300 m-auto md:m-0 object-cover"
-          alt="eg"
-          width={111}
-          height={126}
-        />
+        <div className="w-[140px] h-full rounded-sm shadow-xl border border-gray-300 m-auto md:m-0">
+          {/* استبدال Image بـ img عادي للصورة التوضيحية */}
+          <img
+            src="/imageEg.png"
+            className="object-cover w-full h-full"
+            alt="example"
+          />
+        </div>
         <div className="list">
           <h1 className="font-medium text-gray-400 text-center md:text-left">
             Conditions for uploading an image:
           </h1>
-          {conditions.map((condition, i: number) => {
-            return (
+          <ul>
+            {conditions.map((condition, i) => (
               <li
                 className="text-gray-400 text-sm font-medium text-center md:text-left"
                 key={i}
               >
                 {condition}
               </li>
-            );
-          })}
+            ))}
+          </ul>
         </div>
       </div>
     </div>
