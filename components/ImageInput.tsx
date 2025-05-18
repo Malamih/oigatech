@@ -2,8 +2,8 @@ import { Button } from "./ui/button";
 import { DragEvent, useCallback, useRef, useState, useEffect } from "react";
 import clsx from "clsx";
 import styles from "@/styles/imageInput.module.scss";
-import { useReadImage } from "@/lib/imageReader";
 import { toast } from "sonner";
+import exifr from "exifr";
 
 const conditions = [
   "High Lighting",
@@ -61,17 +61,92 @@ export const ImageInput = ({ isError = false }: { isError: boolean }) => {
       return false;
     }
 
-    setFile(file);
+    try {
+      // قراءة بيانات EXIF
+      const exifData = await exifr.parse(file);
+      const orientation = exifData?.Orientation || 1;
 
-    if (inputRef.current) {
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
-      inputRef.current.files = dataTransfer.files;
+      // إنشاء عنصر صورة لمعالجة التدوير
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+      });
+
+      // إنشاء canvas لتطبيق التدوير
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d") as any;
+
+      // تحديد أبعاد Canvas بناءً على الاتجاه
+      if (orientation >= 5 && orientation <= 8) {
+        canvas.width = img.naturalHeight;
+        canvas.height = img.naturalWidth;
+      } else {
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+      }
+
+      // تطبيق التحويلات بناءً على Orientation
+      switch (orientation) {
+        case 2:
+          ctx.transform(-1, 0, 0, 1, canvas.width, 0);
+          break;
+        case 3:
+          ctx.transform(-1, 0, 0, -1, canvas.width, canvas.height);
+          break;
+        case 4:
+          ctx.transform(1, 0, 0, -1, 0, canvas.height);
+          break;
+        case 5:
+          ctx.transform(0, 1, 1, 0, 0, 0);
+          break;
+        case 6:
+          ctx.transform(0, 1, -1, 0, canvas.height, 0);
+          break;
+        case 7:
+          ctx.transform(0, -1, -1, 0, canvas.height, canvas.width);
+          break;
+        case 8:
+          ctx.transform(0, -1, 1, 0, 0, canvas.width);
+          break;
+        default:
+          break;
+      }
+
+      // رسم الصورة مع التصحيح
+      ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+
+      // تحويل Canvas إلى Blob ثم إلى File
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob(resolve, "image/jpeg", 0.95)
+      );
+
+      if (!blob) throw new Error("Failed to process image");
+
+      const rotatedFile = new File([blob], file.name, {
+        type: "image/jpeg",
+        lastModified: Date.now(),
+      });
+
+      setFile(rotatedFile);
+
+      if (inputRef.current) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(rotatedFile);
+        inputRef.current.files = dataTransfer.files;
+      }
+
+      const src = canvas.toDataURL("image/jpeg", 0.95);
+      setImageSrc(src);
+      URL.revokeObjectURL(img.src);
+      return true;
+    } catch (error) {
+      console.error("Image processing error:", error);
+      toast.error("Failed to process image");
+      return false;
     }
-
-    const src = await useReadImage(file);
-    setImageSrc(src as string);
-    return true;
   }, []);
 
   const handleDrop = useCallback(
