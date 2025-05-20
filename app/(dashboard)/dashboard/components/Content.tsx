@@ -18,7 +18,13 @@ import { UserRow } from "./UserRow";
 import { getUsers } from "@/services/users";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { RefreshCcw } from "lucide-react";
+import {
+  ArrowDownLeftFromCircle,
+  RefreshCcw,
+  Share,
+  Upload,
+  UploadIcon,
+} from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -31,6 +37,8 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import ApiClient from "@/lib/apiClient";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Export } from "./Export";
 
 export const Content = () => {
   const [page, setPage] = useState(1);
@@ -157,12 +165,15 @@ export const Content = () => {
   return (
     <>
       <div
-        className="content bg-white p-4 rounded-sm m-2 w-[calc(100vw-240px)]"
+        className="content bg-white p-4 rounded-sm m-2 max-w-[calc(100vw-240px)]"
         style={{ gridArea: "content" }}
       >
         <div className="header flex items-center justify-between">
           <h1 className="font-medium text-lg">Total Users: {total || 0}</h1>
-          <AddUsesr />
+          <div className="actions flex items-center gap-2">
+            <Export />
+            <AddUsesr />
+          </div>
         </div>
         <div>
           <div className="header mt-4 flex items-center justify-between">
@@ -217,37 +228,37 @@ export const Content = () => {
               </Select>
             </div>
           </div>
-          <Table className="mt-4 min-w-[1200px]">
+          <Table className="mt-4 w-full">
             <TableHeader>
               <TableRow className="border-b-gray-300">
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Image
                 </TableHead>
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Full name
                 </TableHead>
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Email
                 </TableHead>
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Phone
                 </TableHead>
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Company
                 </TableHead>
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Position
                 </TableHead>
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Send via
                 </TableHead>
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Participation type
                 </TableHead>
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Register Date
                 </TableHead>
-                <TableHead className="text-gray-400 text-center">
+                <TableHead className="text-gray-600 font-medium text-center">
                   Status
                 </TableHead>
                 <TableHead className="text-center text-gray-400">
@@ -256,28 +267,6 @@ export const Content = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {/* {isFetching &&
-              Array.from({ length: limit }).map((_, i: number) => {
-                return (
-                  <TableRow className="border-b-gray-300" key={i}>
-                    <TableCell className="text-gray-400" key={i}>
-                      <Skeleton className="w-[90px] h-[90px] m-auto" />
-                    </TableCell>
-                    {Array.from({ length: 8 }).map((_, i) => {
-                      return (
-                        <TableCell className="text-gray-400" key={i}>
-                          <Skeleton className="w-[100px] h-[20px] m-auto" />
-                        </TableCell>
-                      );
-                    })}
-                    <TableCell className="text-center text-gray-600">
-                      <div className="icon m-auto w-[30px] h-[30px] rounded-full hover:bg-gray-100 cursor-pointer flex items-center justify-center">
-                        <MoreHorizontal />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })} */}
               {data?.payload &&
                 data.payload.map((user, i: number) => {
                   return <UserRow key={i} user={user} />;

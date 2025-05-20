@@ -85,7 +85,7 @@ export const AddUsesr = () => {
     <div className="add">
       <Dialog onOpenChange={setIsOpen} open={isOpen}>
         <DialogTrigger asChild>
-          <Button className="rounded-[3px] cursor-pointer">New User</Button>
+          <Button className="rounded-md cursor-pointer">New User</Button>
         </DialogTrigger>
         <DialogContent className="bg-white border-gray-300 py-6 pb-2 px-4">
           <form onSubmit={(e) => register(e)} className="flex flex-col">

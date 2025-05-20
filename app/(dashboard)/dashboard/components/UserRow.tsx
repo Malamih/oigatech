@@ -88,14 +88,6 @@ export const UserRow = ({ user }: { user: User }) => {
   }: any = sendWhatsapp(success, user._id);
 
   useEffect(() => {
-    console.log(
-      error?.message ||
-        reject_error?.message ||
-        delete_error?.message ||
-        download_error?.message ||
-        email_error?.message ||
-        whatsapp_error?.message
-    );
     if (
       error ||
       reject_error ||
@@ -124,36 +116,38 @@ export const UserRow = ({ user }: { user: User }) => {
 
   return (
     <TableRow className="border-b-gray-300">
-      <TableCell className="text-gray-400">
+      <TableCell className="text-gray-700 font-medium">
         <img
           src={user?.image?.url || "https://picsum.photos/500/300"}
           alt="profile"
-          className="min-w-[90px] h-[90px] m-auto rounded-sm object-cover"
+          className="min-w-[80px] h-[80px] m-auto rounded-sm object-cover"
         />
       </TableCell>
-      <TableCell className="text-gray-400 text-center">
+      <TableCell className="text-gray-700 font-medium text-center text-wrap whitespace-break-spaces">
         {user.first_name} {user.last_name}
       </TableCell>
-      <TableCell className="text-gray-400 text-center">{user.email}</TableCell>
-      <TableCell className="text-gray-400 text-center">
+      <TableCell className="text-gray-700 font-medium text-center text-wrap whitespace-break-spaces max-w-[200px] break-words">
+        {user.email}
+      </TableCell>
+      <TableCell className="text-gray-700 font-medium text-center text-wrap whitespace-break-spaces">
         {user.phone_number}
       </TableCell>
-      <TableCell className="text-gray-400 text-center">
+      <TableCell className="text-gray-700 font-medium text-center text-wrap whitespace-break-spaces">
         {user.company_name}
       </TableCell>
-      <TableCell className="text-gray-400 text-center">
+      <TableCell className="text-gray-700 font-medium text-center text-wrap whitespace-break-spaces">
         {user.position}
       </TableCell>
-      <TableCell className="text-gray-400 text-center">
+      <TableCell className="text-gray-700 font-medium text-center text-wrap whitespace-break-spaces">
         {user.send_via}
       </TableCell>
-      <TableCell className="text-gray-400 text-center">
+      <TableCell className="text-gray-700 font-medium text-center text-wrap whitespace-break-spaces">
         {user.participation_type}
       </TableCell>
-      <TableCell className="text-gray-400 text-center">
+      <TableCell className="text-gray-700 font-medium text-center text-wrap whitespace-break-spaces">
         {formatDate(user.createdAt)}
       </TableCell>
-      <TableCell className="text-center font-medium">
+      <TableCell className="text-center font-medium text-wrap whitespace-break-spaces">
         <span
           className={clsx("py-[5px] px-3 rounded-full capitalize", {
             "bg-green-100 border border-green-600 text-green-500":
@@ -167,7 +161,7 @@ export const UserRow = ({ user }: { user: User }) => {
           {user.status}
         </span>
       </TableCell>
-      <TableCell className="text-center text-gray-600">
+      <TableCell className="text-center text-wrap text-gray-600 whitespace-break-spaces">
         <Popover onOpenChange={setIsOpen} open={isOpen}>
           <PopoverTrigger asChild>
             <div className="icon m-auto w-[30px] h-[30px] rounded-full hover:bg-gray-100 cursor-pointer flex items-center justify-center">
