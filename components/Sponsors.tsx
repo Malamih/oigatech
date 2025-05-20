@@ -27,10 +27,6 @@ export const Sponsors = () => {
       name: "Member Of",
       logos: ["/10.png", "/11.png", "/12.png", "/13.png"],
     },
-    {
-      name: "Diamond Sponsor",
-      logos: ["/14.png"],
-    },
   ];
   return (
     <div
