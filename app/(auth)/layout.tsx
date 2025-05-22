@@ -2,6 +2,7 @@ import { QueryProvider } from "@/providers/QueryClientProvider";
 import "../globals.css";
 import { Toaster } from "sonner";
 import type { Metadata } from "next";
+import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   title: "Login - Iraq Oil and Gas Technology Exhibition (OIGATECH 2025)",
@@ -49,6 +50,7 @@ const AuthLayout = ({ children }: props) => {
   return (
     <html>
       <body>
+        <NextTopLoader showSpinner={false} color="#ee6115" />
         <Toaster />
         <QueryProvider>{children}</QueryProvider>
       </body>

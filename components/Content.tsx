@@ -375,15 +375,9 @@ export const Content = () => {
             ) : (
               <Select onValueChange={setCompany}>
                 <SelectTrigger className="w-full border-0 border-b rounded-none">
-                  <SelectValue placeholder="Select company" />
+                  <SelectValue placeholder="Select your company" />
                 </SelectTrigger>
-                <SelectContent className="rounded-none border-gray-200">
-                  <Input
-                    placeholder="Search by name..."
-                    type="text"
-                    value={nameValue}
-                    onInput={(e: any) => setNameValue(e.target.value)}
-                  />
+                <SelectContent className="rounded-none border-gray-200 w-full">
                   {!isFetching &&
                     data?.payload?.map((company, i: number) => {
                       return (

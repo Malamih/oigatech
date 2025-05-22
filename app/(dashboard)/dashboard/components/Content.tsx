@@ -55,6 +55,7 @@ export const Content = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedEmail(email);
+      setPage(1);
     }, 500);
 
     return () => clearTimeout(timer);

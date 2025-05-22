@@ -33,7 +33,7 @@ export const Content = () => {
   const [name, setName] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [page, setPage] = useState(1);
-  const limit = 50;
+  const limit = 999;
 
   const {
     data: companies_data,
@@ -53,7 +53,7 @@ export const Content = () => {
   if (companies_error) toast.error(companies_error.message);
 
   return (
-    <div className="content w-[calc(100vw-250px)] overflow-auto">
+    <div className="content w-[calc(100vw-280px)] overflow-auto">
       <header className="flex items-center justify-between pb-4 border-b border-b-gray-300">
         <h1 className="text-lg font-medium">
           Total Companies: {companies_data?.meta?.total || 34}

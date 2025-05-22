@@ -295,12 +295,6 @@ export const Edit = ({ user }: { user: User }) => {
                   <SelectValue placeholder="Company" />
                 </SelectTrigger>
                 <SelectContent className="w-full max-h-[200px]">
-                  <Input
-                    placeholder="Search..."
-                    className="w-full border-gray-400 border p-1 mb-2 rounded-sm"
-                    value={nameInput}
-                    onInput={(e: any) => setNameInput(e.target.value)}
-                  />
                   {isFetching && <span>Loading...</span>}
                   {data?.payload?.length === 0 && (
                     <span className="py-4 font-medium text-gray-400">
@@ -309,11 +303,7 @@ export const Edit = ({ user }: { user: User }) => {
                   )}
                   {data?.payload?.map((company: any, i: number) => {
                     return (
-                      <SelectItem
-                        value={company.name}
-                        key={i}
-                        defaultChecked={user.company?._id == company._id}
-                      >
+                      <SelectItem value={company.name} key={i}>
                         <span className="mr-2">{company.name}</span>
                         <span>
                           {company?.users?.length}/{company?.users_limit}

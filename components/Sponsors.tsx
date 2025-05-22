@@ -2,32 +2,6 @@ import { Facebook, Instagram, Linkedin, Mail, Phone } from "lucide-react";
 
 export const Sponsors = () => {
   const folderLocation = "/sponsers";
-  const sponsorsGroup = [
-    {
-      name: "Sponsored By",
-      logos: ["/1.png"],
-    },
-    {
-      name: "In association with",
-      logos: ["/2.png", "/3.png"],
-    },
-    {
-      name: "Host Venue",
-      logos: ["/6.png"],
-    },
-    {
-      name: "Organized By",
-      logos: ["/7.png"],
-    },
-    {
-      name: "ISO Certificate",
-      logos: ["/8.png", "/9.png"],
-    },
-    {
-      name: "Member Of",
-      logos: ["/10.png", "/11.png", "/12.png", "/13.png"],
-    },
-  ];
   return (
     <div
       className="sponsors overflow-hidden my-3 flex flex-wrap gap-4 px-4 py-4 self-center max-w-[700px] lg:max-w-[400px] w-full rounded-tr-2xl rounded-br-2xl rounded-tl-2xl rounded-bl-2xl lg:rounded-tl-[0] lg:rounded-bl-[0]"
@@ -162,21 +136,6 @@ export const Sponsors = () => {
                 alt="logo"
               />
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="group  sm:w-[calc(50%-16px)] mt-2">
-        <h1 className="font-medium text-white mb-2 text-lg text-center sm:text-left">
-          Diamond Sponsor
-        </h1>
-        <div className="logos flex flex-col items-center justify-center sm:items-start sm:justify-start flex-wrap gap-1">
-          <div className="logo flex items-start justify-center">
-            <img
-              src={folderLocation + "/14.png"}
-              width={70}
-              height={100}
-              alt="logo"
-            />
           </div>
         </div>
       </div>

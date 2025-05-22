@@ -4,6 +4,7 @@ import { Header } from "./dashboard/components/Header";
 import { Sidebar } from "./dashboard/components/Sidebar";
 import { QueryProvider } from "@/providers/QueryClientProvider";
 import { Toaster } from "sonner";
+import NextToploader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   title: "Dashboard - Iraq Oil and Gas Technology Exhibition (OIGATECH 2025)",
@@ -50,6 +51,7 @@ export default function DashboardLayout({
   return (
     <html lang="en">
       <body className={`antialiased bg-[#f5eeeb]`}>
+        <NextToploader showSpinner={true} color="#ee6115" />
         <Toaster />
         <QueryProvider>
           <div className="page dashboard-layout">

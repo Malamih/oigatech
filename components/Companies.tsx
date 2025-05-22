@@ -8,7 +8,6 @@ import {
   SelectValue,
 } from "./ui/select";
 import { useEffect, useState } from "react";
-import { Input } from "./ui/input";
 import { toast } from "sonner";
 
 export const Companies = () => {
@@ -29,15 +28,9 @@ export const Companies = () => {
   return (
     <Select name="company">
       <SelectTrigger className="w-full border-0 border-b rounded-none">
-        <SelectValue placeholder="Select company" />
+        <SelectValue placeholder="Select your company" />
       </SelectTrigger>
       <SelectContent className="rounded-none border-gray-200">
-        <Input
-          placeholder="Search by name..."
-          type="text"
-          value={nameValue}
-          onInput={(e: any) => setNameValue(e.target.value)}
-        />
         {!isFetching &&
           data?.payload?.map((company, i: number) => {
             return (

@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Sponsors } from "@/components/Sponsors";
 import { Toaster } from "sonner";
 import { QueryProvider } from "@/providers/QueryClientProvider";
+import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   title: "Iraq Oil and Gas Technology Exhibition (OIGATECH 2025)",
@@ -58,6 +59,7 @@ export default function RootLayout({
       <body
         className={`antialiased flex items-center p-2 lg:p-0 justify-center min-h-[100vh] overflow-x-hidden bg-[#973f0f]`}
       >
+        <NextTopLoader showSpinner={false} color="#ee6115" />
         <Toaster />
         <QueryProvider>
           <div className="bg fixed top-0 left-0 w-full h-full z-0 opacity-[30%]">
