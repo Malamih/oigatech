@@ -287,10 +287,13 @@ export const Edit = ({ user }: { user: User }) => {
             ) : (
               <Select onValueChange={(v) => setCompany(v)}>
                 <SelectTrigger
-                  className={clsx("w-full", {
-                    "border-red-200 bg-red-100":
-                      register_error?.fieldErrors?.company_name,
-                  })}
+                  className={clsx(
+                    "w-full max-w-[50%] break-words whitespace-break-spaces overflow-auto",
+                    {
+                      "border-red-200 bg-red-100":
+                        register_error?.fieldErrors?.company_name,
+                    }
+                  )}
                 >
                   <SelectValue placeholder="Company" />
                 </SelectTrigger>

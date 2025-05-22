@@ -21,8 +21,28 @@ import {
 import { getAllCompanies } from "@/services/companies";
 import Cookies from "js-cookie";
 import { getBadgeCondition } from "@/services/badge";
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export const Content = () => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+
   const {
     data: badgeRes,
     error: badgeErr,
@@ -103,10 +123,10 @@ export const Content = () => {
         form.delete("phone_number");
         form.append("phone_number", country_code + phone);
       }
-      if (participation_type == "exhibitor" && company) {
-        if (company == "")
+      if (participation_type == "exhibitor" && value) {
+        if (value == "")
           return toast.error("Please select a company to register.");
-        form.append("company_name", company);
+        form.append("company_name", value);
       }
       mutate(form);
     }
@@ -373,31 +393,54 @@ export const Content = () => {
                 })}
               />
             ) : (
-              <Select onValueChange={setCompany}>
-                <SelectTrigger className="w-full border-0 border-b rounded-none">
-                  <SelectValue placeholder="Select your company" />
-                </SelectTrigger>
-                <SelectContent className="rounded-none border-gray-200 w-full">
-                  {!isFetching &&
-                    data?.payload?.map((company, i: number) => {
-                      return (
-                        <SelectItem key={i} value={company.name}>
-                          {company.name}
-                        </SelectItem>
-                      );
-                    })}
-                  {isFetching && (
-                    <span className="text-lg text-center flex justify-center">
-                      Loading...
-                    </span>
-                  )}
-                  {(data?.payload?.length ?? 0) < 1 && (
-                    <span className="py-2 text-center flex justify-center">
-                      No companies
-                    </span>
-                  )}
-                </SelectContent>
-              </Select>
+              <Popover onOpenChange={setOpen} open={open}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-2/4 justify-between rounded-none border-0 border-b-2 shadow-none whitespace-break-spaces text-left bg-transparent"
+                  >
+                    {value
+                      ? data?.payload.find((company) => company.name === value)
+                          ?.name
+                      : "Select your company"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[400px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search company..." />
+                    <CommandList className="[&_*]:text-black">
+                      <CommandEmpty>No company found.</CommandEmpty>
+                      <CommandGroup>
+                        {data?.payload.map((company) => (
+                          <CommandItem
+                            key={company.name}
+                            value={company.name}
+                            onSelect={(currentValue) => {
+                              setValue(
+                                currentValue === value ? "" : currentValue
+                              );
+                              setOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                value === company.name
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {company.name}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             )}
             <Input
               placeholder="Your position"
